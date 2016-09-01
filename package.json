@@ -14,7 +14,7 @@
     "coffee-19-jshint": "^2.3",
     "coffeelint": "^1.15"
   },
-  "main": "lib/index.js",
+  "main": "lib/intellinote.js",
   "scripts": {
   },
   "engines": {
