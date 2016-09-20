@@ -55,7 +55,7 @@ Finally a callback method is passed.  That method is expected to have the signat
 
 ## The API Methods
 
-### Fetching 
+### Fetching
   * `getNote(noteID_or_noteUUID,[qs],callback)`
   * `getNotes([qs],callback)`
   * `getOrg(orgID,[qs],callback)`
@@ -87,7 +87,7 @@ Finally a callback method is passed.  That method is expected to have the signat
   * `putUser(userID_or_emailAddr,payload,[qs],callback)`
   * `putUserPresence(userID_or_emailAddr,payload,[qs],callback)`
 
-### Destroying & Removing 
+### Destroying & Removing
   * `deleteNote(orgID,workspaceID,noteID_or_noteUUID,[qs],callback)`
   * `deleteOrg(orgID,[qs],callback)`
   * `deleteWorkspace(orgID,wsID,[qs],callback)`
@@ -103,3 +103,15 @@ Finally a callback method is passed.  That method is expected to have the signat
   * `deleteEcho([qs],callback)`
   * `getPing([qs],callback)`
 
+
+## Arbitrary Methods
+
+In addition to the pre-defined methods, you may execute a request against an arbitrary path (below the Intellinote REST API "base URL") using the following methods:
+
+  * `get(path,[qs,[headers]],callback)`
+  * `put(path,body,[qs,[headers]],callback)`
+  * `post(path,body,[qs,[headers]],callback)`
+  * `patch(path,body,[qs,[headers]],callback)`
+  * `delete(path,[qs,[headers]],callback)`
+
+For each of these methods the callback signature is identical to that of the explicit API methods, namely `callback(err, json, response, body)`.

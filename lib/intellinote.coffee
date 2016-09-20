@@ -39,6 +39,8 @@ API_METHODS = {
   "POST /org/{0}/workspace/{1}/message"      : [ 2, [ "postMessageToWorkspace", "post_chat_message"        , "postChatMessage"   , "post_message" , "postMessage" , "post_workspace_message" , "postWorkspaceMessage" ] ]
   "POST /org/{0}/workspace/{1}/note"         : [ 2, [ "post_note"                , "postNote"             ] ]
   "POST /user"                               : [ 0, [ "post_user"                , "postUser"             ] ]
+  # PATCH
+  "PATCH /echo"                              : [ 0, [ "patch_echo"               , "patchEcho"            ] ]
   # PUT
   "PUT /echo"                                : [ 0, [ "put_echo"                , "putEcho"               ] ]
   "PUT /org/{0}"                             : [ 1, [ "put_org"                 , "putOrg"                ] ]
@@ -102,8 +104,42 @@ class Intellinote
       fpath = @_sprintf req_path, values...
       unless @_access_token_missing callback
         params = @_to_params fpath, options, body
-        @_execute_request req_method, params, callback
+        @_execute_api_request req_method, params, callback
 
+
+  ##############################################################################
+  #### "GENERIC" REQUEST METHODS
+  ##############################################################################
+  # these allow arbitrary requests as an "escape route" should clients need
+  # anything not explicity covered
+
+  # Arbitrary `GET` request.
+  # callback:(err, json, response, body)
+  get:(path, qs, headers, callback)=>
+    @_execute_arbitrary_request "get", path, qs, null, headers, callback
+
+  # Arbitrary `DELETE` request.
+  # callback:(err, json, response, body)
+  del:(path, qs, headers, callback)=>
+    @_execute_arbitrary_request "delete", path, qs, null, headers, callback
+
+  delete:(path, qs, headers, callback)=>
+    @del:(path, qs, headers, callback)
+
+  # Arbitrary `POST` request.
+  # callback:(err, json, response, body)
+  post:(path, body, qs, headers, callback)=>
+    @_execute_arbitrary_request "post", path, qs, body, headers, callback
+
+  # Arbitrary `PUT` request.
+  # callback:(err, json, response, body)
+  put:(path, body, qs, headers, callback)=>
+    @_execute_arbitrary_request "put", path, qs, body, headers, callback
+
+  # Arbitrary `PATCH` request.
+  # callback:(err, json, response, body)
+  patch:(path, body, qs, headers, callback)=>
+    @_execute_arbitrary_request "patch", path, qs, body, headers, callback
 
   ##############################################################################
   #### API METHOD EXECUTION
@@ -112,11 +148,9 @@ class Intellinote
   # generate a request "params" map for the given path,
   # (optional) query string and (optional) request body.
   # An `Authorization` header is automatically added.
-  _to_params:(req_path, qs, body)=>
+  _to_params:(req_path, qs, body, headers)=>
     params = {}
     params.url = @_append_qs "#{@base_url}#{req_path}", qs
-    if @access_token?
-      params.headers =  { Authorization: "Bearer #{@access_token}" }
     if body?
       if typeof body is 'object'
         params.json = body
@@ -124,6 +158,13 @@ class Intellinote
         params.headers["Content-Type"] ?= "application/json"
       else
         params.form = body
+    if @access_token?
+      params.headers ?= {}
+      params.headers = { Authorization: "Bearer #{@access_token}" }
+    if headers?
+      params.headers ?= {}
+      for n, v of headers
+        params.headers[n] = v
     return params
 
   # Converts a map of name-value pairs to a query string.
@@ -173,8 +214,20 @@ class Intellinote
       callback(new Error("Missing auth token."))
       return true
 
-  _execute_request:(method, params, callback)=>
-    # console.log "_execute_request",method,params
+  _execute_arbitrary_request:(method, req_path, qs, body, headers, callback)=>
+    if typeof qs is 'function' and not body? and not headers? and not callback?
+      callback = qs
+      qs = null
+    else if typeof body is 'function' and not headers? and not callback?
+      callback = body
+      body = null
+    else if typeof headers is 'function' and not callback?
+      callback = headers
+      headers = null
+    params = @_to_params(req_path, qs, body, headers)
+    @_execute_api_request(method, params, callback)
+
+  _execute_api_request:(method, params, callback)=>
     @_log_request method, params
     start_time = process.hrtime()
     if method is 'delete'
@@ -183,6 +236,16 @@ class Intellinote
       delta = process.hrtime(start_time)
       @_log_request_duration delta
       @_read_json_response err, response, body, callback
+
+  _read_response:(err, response, body, callback)=>
+    if err?
+      callback err, null, response, body
+    else unless response?
+      callback new Error "Expected non-null response object.", null, response, body
+    else unless response.statusCode >= 200 and response.statusCode <= 299
+      callback new Error "Expected 2xx status code, found #{response.statusCode}.", null, response, body
+    else
+      callback null, null, response, body
 
   # Convert the given HTTP response to a JSON document (if possible).
   # Reports an error if:
@@ -193,26 +256,22 @@ class Intellinote
   #
   # callback signature: (err, json, response, body)
   _read_json_response:(err, response, body, callback)=>
-    if err?
-      callback err, null, response, body
-    else unless response?
-      callback new Error "Expected non-null response object.", null, response, body
-    else unless response.statusCode >= 200 and response.statusCode <= 299
-      callback new Error "Expected 2xx status code, found #{response.statusCode}.", null, response, body
-    else unless body?
-      if response.statusCode is 204
-        callback null, null, response, body
+    @_read_response err, response, body, (err, ignored, response, body)=>
+      if err?
+        callback(err)
+      else unless body?
+        if response.statusCode is 204
+          callback null, null, response, body
+        else
+          callback new Error "Expected a non-null response body.", null, response, body
       else
-        callback new Error "Expected a non-null response body.", null, response, body
-    else
-      json = body
-      if typeof json is 'string'
-        try
-          json = JSON.parse(json)
-        catch e
-          callback e, null, response, body
-          return
-      callback null, json, response, body
+        json = body
+        if typeof json is 'string'
+          try
+            json = JSON.parse(json)
+          catch e
+            json = null
+        callback null, json, response, body
 
   # returns [options, callback] after accounting for the optional `options` parameter.
   _resolve_options_callback:(options,callback)=>
