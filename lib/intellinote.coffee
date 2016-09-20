@@ -1,4 +1,6 @@
 request          = require 'request'
+FormData         = require 'form-data'
+url              = require 'url'
 DEBUG            = /(^|,)(intell)?inote(-?api)?(-?client)?(,|$)/i.test process.env.NODE_DEBUG
 DEFAULT_BASE_URL = "https://api.intellinote.net/rest/v2"
 
@@ -72,8 +74,63 @@ class Intellinote
       config = {access_token:config}
     @access_token = config.access_token ? config.accessToken ? config.accesstoken
     @base_url = config.base_url ? DEFAULT_BASE_URL
+    parsed_url = url.parse(@base_url)
+    @base_url_protcol = parsed_url.protocol
+    @base_url_host = parsed_url.host
+    if parsed_url.port?
+      @base_url_port = parsed_url.port
+    @base_url_path = parsed_url.path
     @debug = config.debug ? DEBUG
     @_generate_api_methods()
+
+  ##############################################################################
+  #### SPECIAL CASE METHODS
+  ##############################################################################
+
+  postFile:(org_id, ws_id, read_stream, qs, callback)=>
+    @post_file(org_id, ws_id, read_stream, qs, callback)
+
+  post_file:(org_id, ws_id, read_stream, qs, callback)=>
+    if typeof qs is 'function' and not callback?
+      callback = qs
+      qs = null
+    form = new FormData()
+    form.append('file', read_stream)
+    req_path = "/org/#{org_id}/workspace/#{ws_id}/file"
+    #params = @_to_params req_path, qs
+    params = {
+      protocol: @base_url_protcol
+      host:@base_url_host
+      port:@base_url_port
+      path:"#{@base_url_path}#{req_path}"
+      headers: { Authorization: "Bearer #{@access_token}" }
+    }
+    called_back = false
+    @_log_request "POST", params
+    start_time = process.hrtime()
+    form.submit params, (err, res)=>
+      delta = process.hrtime(start_time)
+      @_log_request_duration delta
+      # @_read_json_response err, response, body, callback
+      if err?
+        console.log "ERROR",err
+        callback(err)
+      else
+        response_body = ""
+        res.on 'data', (chunk)=>response_body+=chunk.toString()
+        res.on 'end', ()=>
+          try
+            json = JSON.parse(response_body)
+          catch e
+            # ignored
+          unless called_back
+            called_back = true
+            callback(null, json, res, response_body)
+        res.on 'error', (err)=>
+          unless called_back
+            called_back = true
+            callback(err, null, res, null)
+        res.resume()
 
   ##############################################################################
   #### API METHOD CREATION
@@ -310,7 +367,7 @@ class Intellinote
 
   # Generate a debugging message for the given request.
   _log_request:(method,params)=>
-    @_debug_message "#{method.toUpperCase()} #{params?.uri ? params.url}","#{JSON.stringify(params)}"
+    @_debug_message "#{method.toUpperCase()} #{params?.uri ? params.url ? params.pathname ? params.path}","#{JSON.stringify(params)}"
 
   # Generate a debugging message for the given request duration.
   _log_request_duration:(duration)=>
