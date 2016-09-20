@@ -124,7 +124,7 @@ class Intellinote
     @_execute_arbitrary_request "delete", path, qs, null, headers, callback
 
   delete:(path, qs, headers, callback)=>
-    @del:(path, qs, headers, callback)
+    @del(path, qs, headers, callback)
 
   # Arbitrary `POST` request.
   # callback:(err, json, response, body)
