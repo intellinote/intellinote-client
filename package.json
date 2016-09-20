@@ -1,13 +1,14 @@
 {
   "name"             : "intellinote-client",
-  "version"          : "1.1.1",
+  "version"          : "1.2.0",
   "description"      : "Node-based client for the Intellinote/BroadSoft Team-One V2 REST API. See <https://api.intellinote.net/>.",
   "repository"       : { "type": "git", "url": "https://github.com/intellinote/intellinote-client.git" },
   "bugs"             : { "url": "https://github.com/intellinote/intellinote-client/issues" },
   "license"          : "MIT",
   "author"           : "Intellinote <https://www.intellinote.net/> / BroadSoft Team Collaboration <https://broadsoft.com/>",
   "dependencies"     : {
-    "request"          : "2.48.x"
+    "request"          : "2.48.x",
+    "form-data"        : "0.2.x"
   },
   "devDependencies"  : {
     "coffee-coverage"  : "0.4.x",
