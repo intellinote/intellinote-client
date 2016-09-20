@@ -123,19 +123,22 @@ class Intellinote
   del:(path, qs, headers, callback)=>
     @_execute_arbitrary_request "delete", path, qs, null, headers, callback
 
+  delete:(path, qs, headers, callback)=>
+    @del:(path, qs, headers, callback)
+
   # Arbitrary `POST` request.
   # callback:(err, json, response, body)
-  post:(path, qs, body, headers, callback)=>
+  post:(path, body, qs, headers, callback)=>
     @_execute_arbitrary_request "post", path, qs, body, headers, callback
 
   # Arbitrary `PUT` request.
   # callback:(err, json, response, body)
-  put:(path, qs, body, headers, callback)=>
+  put:(path, body, qs, headers, callback)=>
     @_execute_arbitrary_request "put", path, qs, body, headers, callback
 
   # Arbitrary `PATCH` request.
   # callback:(err, json, response, body)
-  patch:(path, qs, body, headers, callback)=>
+  patch:(path, body, qs, headers, callback)=>
     @_execute_arbitrary_request "patch", path, qs, body, headers, callback
 
   ##############################################################################

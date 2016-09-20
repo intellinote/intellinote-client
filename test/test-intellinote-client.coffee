@@ -126,7 +126,7 @@ else
 
     it 'can submit custom POST requests, with custom headers', (done)->
       client = new Intellinote(access_token:ACCESS_TOKEN)
-      client.post "/echo", null, {foo:"bar"}, {"x-custom-header":"found"}, (err, json, response, body)->
+      client.post "/echo", {foo:"bar"}, null, {"x-custom-header":"found"}, (err, json, response, body)->
         assert not err?
         assert typeof json is 'object'
         assert json.body.foo is 'bar'
@@ -137,7 +137,7 @@ else
 
     it 'can submit custom PUT requests, with query string', (done)->
       client = new Intellinote(access_token:ACCESS_TOKEN)
-      client.put "/echo", {x:"y"}, {foo:"bar"}, (err, json, response, body)->
+      client.put "/echo", {foo:"bar"}, {x:"y"}, (err, json, response, body)->
         assert not err?
         assert json?
         assert typeof json is 'object'
