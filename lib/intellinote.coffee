@@ -33,10 +33,10 @@ API_METHODS = {
   "POST /echo"                               : [ 0, [ "post_echo"                , "postEcho"             ] ]
   "POST /org"                                : [ 0, [ "post_org"                 , "postOrg"              ] ]
   "POST /org/{0}/member/{1}"                 : [ 2, [ "post_org_member"          , "postOrgMember"        ] ]
-  "POST /org/{0}/user/{1}/message"           : [ 2, [ "postMessageToUser", "post_direct_message"      , "postDirectMessage" , "post_dm"      , "postDM"      , "post_user_message"      , "postUserMessage"      ] ]
+  "POST /org/{0}/user/{1}/message"           : [ 2, [ "postMessageToUser", "post_direct_message", "postDirectMessage", "post_dm", "postDM", "post_user_message", "postUserMessage" ] ]
   "POST /org/{0}/workspace"                  : [ 1, [ "post_workspace"           , "postWorkspace"        ] ]
   "POST /org/{0}/workspace/{1}/member/{2}"   : [ 3, [ "post_workspace_member"    , "postWorkspaceMember"  ] ]
-  "POST /org/{0}/workspace/{1}/message"      : [ 2, [ "postMessageToWorkspace", "post_chat_message"        , "postChatMessage"   , "post_message" , "postMessage" , "post_workspace_message" , "postWorkspaceMessage" ] ]
+  "POST /org/{0}/workspace/{1}/message"      : [ 2, [ "postMessageToWorkspace", "post_chat_message", "postChatMessage", "post_message", "postMessage", "post_workspace_message", "postWorkspaceMessage" ] ]
   "POST /org/{0}/workspace/{1}/note"         : [ 2, [ "post_note"                , "postNote"             ] ]
   "POST /user"                               : [ 0, [ "post_user"                , "postUser"             ] ]
   # PATCH
