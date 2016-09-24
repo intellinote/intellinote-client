@@ -87,50 +87,15 @@ class Intellinote
   #### SPECIAL CASE METHODS
   ##############################################################################
 
-  postFile:(org_id, ws_id, read_stream, qs, callback)=>
-    @post_file(org_id, ws_id, read_stream, qs, callback)
+  postFile:(org_id, ws_id, read_stream, qs, headers, callback)=>
+    @post_file(org_id, ws_id, read_stream, qs, headers, callback)
 
-  post_file:(org_id, ws_id, read_stream, qs, callback)=>
-    if typeof qs is 'function' and not callback?
-      callback = qs
-      qs = null
-    form = new FormData()
-    form.append('file', read_stream)
+  post_file:(org_id, ws_id, read_stream, qs, headers, callback)=>
+    [qs, headers, callback] = @_resolve_qs_headers_callback(qs, headers, callback)
     req_path = "/org/#{org_id}/workspace/#{ws_id}/file"
-    #params = @_to_params req_path, qs
-    params = {
-      protocol: @base_url_protcol
-      host:@base_url_host
-      port:@base_url_port
-      path:"#{@base_url_path}#{req_path}"
-      headers: { Authorization: "Bearer #{@access_token}" }
-    }
-    called_back = false
-    @_log_request "POST", params
-    start_time = process.hrtime()
-    form.submit params, (err, res)=>
-      delta = process.hrtime(start_time)
-      @_log_request_duration delta
-      # @_read_json_response err, response, body, callback
-      if err?
-        console.log "ERROR",err
-        callback(err)
-      else
-        response_body = ""
-        res.on 'data', (chunk)=>response_body+=chunk.toString()
-        res.on 'end', ()=>
-          try
-            json = JSON.parse(response_body)
-          catch e
-            # ignored
-          unless called_back
-            called_back = true
-            callback(null, json, res, response_body)
-        res.on 'error', (err)=>
-          unless called_back
-            called_back = true
-            callback(err, null, res, null)
-        res.resume()
+    params = @_to_params req_path, qs, null, headers
+    params.formData = {file:read_stream}
+    @_execute_api_request "post", params, callback
 
   ##############################################################################
   #### API METHOD CREATION
@@ -153,14 +118,13 @@ class Intellinote
   _make_api_method:(req_method,num_args,req_path)=>
     return (args...)=>
       values = args[0...num_args]
+      tail = args[num_args...]
       if req_method in ['put','post','patch']
-        [body, options, callback] = args[num_args...]
-      else
-        [options, callback] = args[num_args...]
-      [options, callback] = @_resolve_options_callback options, callback
+        body = tail.shift()
+      [qs, headers, callback] = @_resolve_qs_headers_callback tail...
       fpath = @_sprintf req_path, values...
       unless @_access_token_missing callback
-        params = @_to_params fpath, options, body
+        params = @_to_params fpath, qs, body, headers
         @_execute_api_request req_method, params, callback
 
 
@@ -331,13 +295,17 @@ class Intellinote
         callback null, json, response, body
 
   # returns [options, callback] after accounting for the optional `options` parameter.
-  _resolve_options_callback:(options,callback)=>
-    if typeof options is 'function' and not callback?
-      callback = options
-      options = null
-    options ?= {}
+  _resolve_qs_headers_callback:(qs,headers,callback)=>
+    if typeof qs is 'function' and not headers? and not callback?
+      callback = qs
+      qs = null
+    else if typeof headers is 'function' and not callback?
+      callback = headers
+      headers = null
+    qs ?= {}
+    headers ?= {}
     callback ?= (()->undefined)
-    return [options, callback]
+    return [qs, headers, callback]
 
   # Resolve positional parameters of the form `{i}` by replacing them with the
   # ith value in `values`.
