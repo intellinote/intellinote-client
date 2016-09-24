@@ -31,7 +31,7 @@ else
       assert Intellinote?
       done()
 
-    # disable this test since it is hard coded to a specific org/ws and creates real files
+    # # disable this test since it is hard coded to a specific org/ws and creates real files
     # it 'can post files', (done)->
     #   client = new Intellinote(access_token:ACCESS_TOKEN)
     #   input = fs.createReadStream(path.join(HOMEDIR,'README.md'))
