@@ -30,6 +30,7 @@ API_METHODS = {
   "GET /user/{0}"                            : [ 1, [ "get_user"                 , "getUser"              ] ]
   "GET /user/{0}/presence"                   : [ 1, [ "get_user_presence"        , "getUserPresence"      ] ]
   "GET /users"                               : [ 0, [ "get_users"                , "getUsers"             ] ]
+  "GET /users/dt"                            : [ 0, [ "get_users_dt"             , "getUsersDT"           ] ]
   "GET /workspaces"                          : [ 0, [ "get_workspaces"           , "getWorkspaces"        ] ]
   # POST
   "POST /echo"                               : [ 0, [ "post_echo"                , "postEcho"             ] ]
