@@ -52,7 +52,7 @@ API_METHODS = {
   "PUT /org/{0}/workspace/{1}/member/{2}"    : [ 3, [ "put_workspace_member"    , "putWorkspaceMember"    ] ]
   "PUT /org/{0}/workspace/{1}/note/{2}"      : [ 3, [ "put_note"                , "putNote"               ] ]
   "PUT /user/-/presence"                     : [ 0, [ "put_user_presence"       , "putUserPresence"       ] ]
-  "PUT /user/{0}"                            : [ 0, [ "put_user"                , "putUser"               ] ]
+  "PUT /user/{0}"                            : [ 1, [ "put_user"                , "putUser"               ] ]
   # DELETE
   "DELETE /echo"                             : [ 0, [ "delete_echo"             , "deleteEcho"            ] ]
   "DELETE /org/{0}"                          : [ 1, [ "delete_org"              , "deleteOrg"             ] ]
@@ -60,7 +60,7 @@ API_METHODS = {
   "DELETE /org/{0}/workspace/{1}"            : [ 2, [ "delete_workspace"        , "deleteWorkspace"       ] ]
   "DELETE /org/{0}/workspace/{1}/member/{2}" : [ 3, [ "delete_workspace_member" , "deleteWorkspaceMember" ] ]
   "DELETE /org/{0}/workspace/{1}/note/{2}"   : [ 3, [ "delete_note"             , "deleteNote"            ] ]
-  "DELETE /user/{0}"                         : [ 0, [ "delete_user"             , "deleteUser"            ] ]
+  "DELETE /user/{0}"                         : [ 1, [ "delete_user"             , "deleteUser"            ] ]
 }
 
 class Intellinote
