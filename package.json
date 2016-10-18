@@ -1,6 +1,6 @@
 {
   "name": "intellinote-client",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Node-based client for the Intellinote/BroadSoft Team-One V2 REST API. See <https://api.intellinote.net/>.",
   "repository": {
     "type": "git",
