@@ -154,3 +154,17 @@ else
         assert json.method is 'PUT'
         assert json.headers.authorization is "Bearer #{ACCESS_TOKEN}"
         done()
+
+    it 'can handle error responses - bad token case', (done)->
+      client = new Intellinote(access_token:"not a real token")
+      client.get "/user/-", (err, ignored, response, body)->
+        assert err?
+        assert /Active authorization bearer token required/.test err.message
+        done()
+
+    it 'can handle error responses - bad URL case', (done)->
+      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client.get "/this/path/does/not/exist/user/-", (err, ignored, response, body)->
+        assert err?
+        assert /Expected 2xx status code, found 404/.test err.message
+        done()
