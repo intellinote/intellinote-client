@@ -249,6 +249,17 @@ class Intellinote
     params = @_to_params(req_path, qs, body, headers)
     @_execute_api_request(method, params, callback)
 
+  __body_to_err_string:(body)=>
+    unless body?
+      return "(null)"
+    else if typeof body in ['string','number','boolean']
+      return "#{body}"
+    else
+      try
+        return JSON.stringify(body)
+      catch err
+        return "#{body}"
+
   _execute_api_request:(method, params, callback)=>
     @_log_request method, params
     start_time = process.hrtime()
@@ -265,7 +276,7 @@ class Intellinote
     else unless response?
       callback new Error "Expected non-null response object.", null, response, body
     else unless response.statusCode >= 200 and response.statusCode <= 299
-      callback new Error "Expected 2xx status code, found #{response.statusCode}.", null, response, body
+      callback new Error "Expected 2xx status code, found #{response.statusCode}. Response body: #{@__body_to_err_string(body)}", null, response, body
     else
       callback null, null, response, body
 
