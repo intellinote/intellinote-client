@@ -16,51 +16,139 @@ DEFAULT_BASE_URL = "https://api.intellinote.net/rest/v2"
 #         positional parameters
 #  values - [ <NUM_PATH_PARAMS>, [ <METHOD_NAMES> ]]
 API_METHODS = {
-  # GET
-  "GET /echo"                                : [ 0, [ "get_echo"                 , "getEcho"              ] ]
-  "GET /note/{0}"                            : [ 1, [ "get_note"                 , "getNote"              ] ]
-  "GET /notes"                               : [ 0, [ "get_notes"                , "getNotes"             ] ]
-  "GET /org/{0}"                             : [ 1, [ "get_org"                  , "getOrg"               ] ]
-  "GET /org/{0}/members"                     : [ 1, [ "get_org_members"          , "getOrgMembers"        ] ]
-  "GET /org/{0}/workspace/{1}"               : [ 2, [ "get_workspace"            , "getWorkspace"         ] ]
-  "GET /org/{0}/workspace/{1}/members"       : [ 2, [ "get_workspace_members"    , "getWorkspaceMembers"  ] ]
-  "GET /org/{0}/workspaces"                  : [ 1, [ "get_workspaces_in_org"    , "getWorkspacesInOrg"   ] ]
-  "GET /orgs"                                : [ 0, [ "get_orgs"                 , "getOrgs"              ] ]
-  "GET /ping"                                : [ 0, [ "get_ping"                 , "getPing"              ] ]
-  "GET /user/{0}"                            : [ 1, [ "get_user"                 , "getUser"              ] ]
-  "GET /user/{0}/presence"                   : [ 1, [ "get_user_presence"        , "getUserPresence"      ] ]
-  "GET /users"                               : [ 0, [ "get_users"                , "getUsers"             ] ]
-  "GET /users/dt"                            : [ 0, [ "get_users_dt"             , "getUsersDT"           ] ]
-  "GET /workspaces"                          : [ 0, [ "get_workspaces"           , "getWorkspaces"        ] ]
-  # POST
-  "POST /echo"                               : [ 0, [ "post_echo"                , "postEcho"             ] ]
-  "POST /org"                                : [ 0, [ "post_org"                 , "postOrg"              ] ]
-  "POST /org/{0}/member/{1}"                 : [ 2, [ "post_org_member"          , "postOrgMember"        ] ]
-  "POST /org/{0}/user/{1}/message"           : [ 2, [ "postMessageToUser", "post_direct_message", "postDirectMessage", "post_dm", "postDM", "post_user_message", "postUserMessage" ] ]
-  "POST /org/{0}/workspace"                  : [ 1, [ "post_workspace"           , "postWorkspace"        ] ]
-  "POST /org/{0}/workspace/{1}/member/{2}"   : [ 3, [ "post_workspace_member"    , "postWorkspaceMember"  ] ]
-  "POST /org/{0}/workspace/{1}/message"      : [ 2, [ "postMessageToWorkspace", "post_chat_message", "postChatMessage", "post_message", "postMessage", "post_workspace_message", "postWorkspaceMessage" ] ]
-  "POST /org/{0}/workspace/{1}/note"         : [ 2, [ "post_note"                , "postNote"             ] ]
-  "POST /user"                               : [ 0, [ "post_user"                , "postUser"             ] ]
-  # PATCH
-  "PATCH /echo"                              : [ 0, [ "patch_echo"               , "patchEcho"            ] ]
-  # PUT
-  "PUT /echo"                                : [ 0, [ "put_echo"                , "putEcho"               ] ]
-  "PUT /org/{0}"                             : [ 1, [ "put_org"                 , "putOrg"                ] ]
-  "PUT /org/{0}/member/{1}"                  : [ 2, [ "put_org_member"          , "putOrgMember"          ] ]
-  "PUT /org/{0}/workspace/{1}"               : [ 2, [ "put_workspace"           , "putWorkspace"          ] ]
-  "PUT /org/{0}/workspace/{1}/member/{2}"    : [ 3, [ "put_workspace_member"    , "putWorkspaceMember"    ] ]
-  "PUT /org/{0}/workspace/{1}/note/{2}"      : [ 3, [ "put_note"                , "putNote"               ] ]
-  "PUT /user/-/presence"                     : [ 0, [ "put_user_presence"       , "putUserPresence"       ] ]
-  "PUT /user/{0}"                            : [ 1, [ "put_user"                , "putUser"               ] ]
-  # DELETE
-  "DELETE /echo"                             : [ 0, [ "delete_echo"             , "deleteEcho"            ] ]
-  "DELETE /org/{0}"                          : [ 1, [ "delete_org"              , "deleteOrg"             ] ]
-  "DELETE /org/{0}/member/{1}"               : [ 2, [ "delete_org_member"       , "deleteOrgMember"       ] ]
-  "DELETE /org/{0}/workspace/{1}"            : [ 2, [ "delete_workspace"        , "deleteWorkspace"       ] ]
-  "DELETE /org/{0}/workspace/{1}/member/{2}" : [ 3, [ "delete_workspace_member" , "deleteWorkspaceMember" ] ]
-  "DELETE /org/{0}/workspace/{1}/note/{2}"   : [ 3, [ "delete_note"             , "deleteNote"            ] ]
-  "DELETE /user/{0}"                         : [ 1, [ "delete_user"             , "deleteUser"            ] ]
+
+  #
+  # HTTP METHOD       PATH                NUMBER OF PATH PARAMS            SNAKE-STYLE METHOD NAME     CAMEL-STYLE METHOD NAME
+  #  |                 |                                     |              |                           |
+  #  v                 v                                     v              v                           v
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+
+  # ECHO & PING
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /ping"                                         : [ 0, [ "get_ping"                 , "getPing"                 ] ]
+  "GET    /echo"                                         : [ 0, [ "get_echo"                 , "getEcho"                 ] ]
+  "POST   /echo"                                         : [ 0, [ "post_echo"                , "postEcho"                ] ]
+  "PATCH  /echo"                                         : [ 0, [ "patch_echo"               , "patchEcho"               ] ]
+  "PUT    /echo"                                         : [ 0, [ "put_echo"                 , "putEcho"                 ] ]
+  "DELETE /echo"                                         : [ 0, [ "delete_echo"              , "deleteEcho"              ] ]
+
+  # USERS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /user/{0}"                                     : [ 1, [ "get_user"                 , "getUser"                 ] ]
+  "GET    /user/{0}/presence"                            : [ 1, [ "get_user_presence"        , "getUserPresence"         ] ]
+  "GET    /user/email/{0}/available"                     : [ 1, [ "get_user_email_available" , "getUserEmailAvailable"  ,
+                                                                 "get_email_available"      , "getEmailAvailable"        ] ]
+  "GET    /users"                                        : [ 0, [ "get_users"                , "getUsers"                ] ]
+  "GET    /users/dt"                                     : [ 0, [ "get_users_dt"             , "getUsersDT"              ] ] # DataTables compatible version of `GET /users`; see https://www.datatables.net/
+  "POST   /user"                                         : [ 0, [ "post_user"                , "postUser"                ] ]
+  "PUT    /user/{0}"                                     : [ 1, [ "put_user"                 , "putUser"                 ] ]
+  "PUT    /user/-/presence"                              : [ 0, [ "put_user_presence"        , "putUserPresence"         ] ]
+  "DELETE /user/{0}"                                     : [ 1, [ "delete_user"              , "deleteUser"              ] ]
+
+  # ORGS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /orgs"                                         : [ 0, [ "get_orgs"                 , "getOrgs"                 ] ]
+  "GET    /org/{0}"                                      : [ 1, [ "get_org"                  , "getOrg"                  ] ]
+  "POST   /org"                                          : [ 0, [ "post_org"                 , "postOrg"                 ] ]
+  "PUT    /org/{0}"                                      : [ 1, [ "put_org"                  , "putOrg"                  ] ]
+  "DELETE /org/{0}"                                      : [ 1, [ "delete_org"               , "deleteOrg"               ] ]
+
+  # ORG MEMBERS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /org/{0}/members"                              : [ 1, [ "get_org_members"          , "getOrgMembers"           ] ]
+  "GET    /org/{0}/members/count"                        : [ 1, [ "get_org_members_count"    , "getOrgMembersCount"     ,
+                                                                  "get_org_member_count"     , "getOrgMemberCount"       ] ]
+  "POST   /org/{0}/member/{1}"                           : [ 2, [ "post_org_member"          , "postOrgMember"           ] ]
+  "PUT    /org/{0}/member/{1}"                           : [ 2, [ "put_org_member"           , "putOrgMember"            ] ]
+  "DELETE /org/{0}/member/{1}"                           : [ 2, [ "delete_org_member"        , "deleteOrgMember"         ] ]
+
+  # WORKSPACES
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /workspaces"                                   : [ 0, [ "get_workspaces"           , "getWorkspaces"           ] ]
+  "GET    /org/{0}/workspace/{1}"                        : [ 2, [ "get_workspace"            , "getWorkspace"            ] ]
+  "GET    /org/{0}/workspaces"                           : [ 1, [ "get_workspaces_in_org"    , "getWorkspacesInOrg"      ] ]
+  "POST   /org/{0}/workspace"                            : [ 1, [ "post_workspace"           , "postWorkspace"           ] ]
+  "PUT    /org/{0}/workspace/{1}"                        : [ 2, [ "put_workspace"            , "putWorkspace"            ] ]
+  "DELETE /org/{0}/workspace/{1}"                        : [ 2, [ "delete_workspace"         , "deleteWorkspace"         ] ]
+
+  # WORKSPACE MEMBERS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /org/{0}/workspace/{1}/members"                : [ 2, [ "get_workspace_members"    , "getWorkspaceMembers"     ] ]
+  "POST   /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "post_workspace_member"    , "postWorkspaceMember"     ] ]
+  "PUT    /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "put_workspace_member"     , "putWorkspaceMember"      ] ]
+  "DELETE /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "delete_workspace_member"  , "deleteWorkspaceMember"   ] ]
+
+  # NOTES (& TASKS ETC.)
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /notes"                                        : [ 0, [ "get_notes"                , "getNotes"                ] ]
+  "GET    /note/{0}"                                     : [ 1, [ "get_note"                 , "getNote"                 ] ]
+  "POST   /org/{0}/workspace/{1}/note"                   : [ 2, [ "post_note"                , "postNote"                ] ]
+  "PUT    /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "put_note"                 , "putNote"                 ] ]
+  "DELETE /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "delete_note"              , "deleteNote"              ] ]
+
+  # RELATIONS (LINKS)
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "POST   /relation"                                     : [ 0, [ "post_relation"            , "postRelation"            ] ]
+  "DELETE /relation/{0}"                                 : [ 1, [ "delete_relation"          , "deleteRelation"          ] ]
+
+  # TAGS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /org/{0}/workspace/{1}/tag/{2}"                : [ 3, [ "get_tag_by_id"            , "getTagById"             ,
+                                                                                               "getTagByID"              ] ]
+  "GET    /org/{0}/workspace/{1}/tag"                    : [ 2, [ "get_tag"                  , "getTag"                  ] ]
+  "GET    /org/{0}/workspace/{1}/tags"                   : [ 2, [ "get_tags"                 , "getTags"                 ] ]
+  "PUT    /org/{0}/workspace/{1}/tag/{2}"                : [ 3, [ "put_tag"                  , "putTag"                  ] ]
+  "POST   /org/{0}/workspace/{1}/note/{2}/tag/{3}"       : [ 4, [ "post_note_tag"            , "postNoteTag"            ,
+                                                                  "post_tag_to_note"         , "postTagToNote"          ,
+                                                                  "add_tag_to_note"          , "addTagToNote"           ,
+                                                                  "tag_note"                 , "tagNote"                ] ]
+  "POST   /org/{0}/workspace/{1}/note/{2}/tags"          : [ 4, [ "post_note_tags"           , "postNoteTags"          ,
+                                                                  "post_tags_to_note"        , "postTagsToNote"        ,
+                                                                  "add_tags_to_note"         , "addTagsToNote"         ,
+                                                                  "multi_tag_note"           , "multiTagNote"           ] ]
+  "DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3}"       : [ 4, [ "delete_note_tag"          , "deleteNoteTag"         ,
+                                                                  "delete_tag_from_note"     , "deleteTagFromNote"     ,
+                                                                  "remove_tag_from_note"     , "removeTagFromNote"     ,
+                                                                  "untag_note"               , "untagNote"              ] ]
+  "DELETE /org/{0}/workspace/{1}/note/{2}/tags"          : [ 4, [ "delete_note_tags"         , "deleteNoteTags"        ,
+                                                                  "delete_tags_from_note"    , "deleteTagsFromNote"    ,
+                                                                  "remove_tags_from_note"    , "removeTagsFromNote"    ,
+                                                                  "multi_untag_note"         , "multiUntagNote"         ] ]
+  "PUT /org/{0}/workspace/{1}/note/{2}/tags"             : [ 4, [ "put_note_tags"            , "putNoteTags"           ,
+                                                                  "set_tags_for_note"        , "setTagsForNote"        ,
+                                                                  "set_note_tags"            , "setNoteTags"           ,
+                                                                  "overwrite_tags_for_note"  , "overwriteTagsForNote"  ,
+                                                                  "overwrite_note_tags"      , "overwriteNoteTags"      ] ]
+  # CHATS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /org/{0}/chats"                                : [ 1, [ "get_org_chats"            , "getOrgChats"             ] ]
+  "GET    /org/{0}/chats/new/count"                      : [ 1, [ "get_new_chats_count"      , "getNewChatsCount"       ,
+                                                                  "get_new_chat_count"       , "getNewChatCount"         ] ]
+  "POST   /org/{0}/workspace/{1}/message"                : [ 2, [ "post_chat"                , "postChat"               ,
+                                                                  "post_message"             , "postMessage"            ,
+                                                                  "post_workspace_chat"      , "postWorkspaceChat"      ,
+                                                                  "post_workspace_message"   , "postWorkspaceMessage"   ,
+                                                                  "post_chat_to_workspace"   , "postChatToWorkspace"    ,
+                                                                  "post_message_to_workspace", "postMessageToWorkspace"  ] ]
+  "POST   /org/{0}/user/{1}/message"                     : [ 2, [ "post_direct_message"      , "postDirectMessage"      ,
+                                                                  "post_dm"                  , "postDM"                 ,
+                                                                  "post_user_chat"           , "postUserChat"           ,
+                                                                  "post_user_message"        , "postUserMessage"        ,
+                                                                  "post_chat_to_user"        , "postChatToUser"         ,
+                                                                  "post_message_to_user"     , "postMessageToUser"       ] ]
+  # RTM
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /rtms/start"                                   : [ 0, [ "get_rtms_start"           , "getRtmsStart"           ,
+                                                                                               "getRTMSStart"           ,
+                                                                  "get_rtm_start"            , "getRtmStart"            ,
+                                                                                               "getRTMStart"            ,
+                                                                  "start_rtm_session"        , "startRtmSession"        ,
+                                                                                               "startRTMSession"        ,
+                                                                  "start_rtms       "        , "startRtms"              ,
+                                                                                               "startRTMS"              ,
+                                                                  "start_rtm"                , "startRtm"               ,
+                                                                                               "startRTM"                ] ]
+
 }
 
 class Intellinote
@@ -354,3 +442,24 @@ class Intellinote
     @_debug_message "elapsed time: #{duration[0]}.#{duration[1]} seconds."
 
 exports.Intellinote = exports.IntellinoteClient = Intellinote
+
+
+if require.main is module
+  if process.argv[2] is "--by-method"
+    console.log "============================"
+    console.log "= REST PATHS BY API METHOD ="
+    console.log "============================"
+    for key, details of API_METHODS
+      for method_name in details[1]
+        console.log "#{method_name}\t#{key}"
+
+  else if process.argv[2] is "--by-path"
+    console.log "============================"
+    console.log "= API METHODS BY REST PATH ="
+    console.log "============================"
+    for key, details of API_METHODS
+      console.log "#{key}\t#{details[1].sort().join(', ')}"
+
+  else
+    console.error "USE: --by-method\n OR: --by-path"
+    process.exit 1

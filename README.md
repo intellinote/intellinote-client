@@ -81,61 +81,11 @@ Where:
 
 ## The API Methods
 
-See [the Intellinote REST API documentation](https://app.intellinote.net/rest/api/v2/) for more information about these methods.
+> NOTE: You can obtain a list of API methods supported by Intellinote Client by running `node intellinote.js` and including the parameter `--by-path` to get a list of API functions indexed by REST endpoint or `--by-method` to get a list of REST endpoints listed by API function.
 
-### Fetching
-  * `getNote( noteID_or_noteUUID, [qs, [headers,]] callback )`
-  * `getNotes( [qs, [headers,]] callback )`
-  * `getOrg ( orgID, [qs, [headers,]] callback )`
-  * `getOrgMembers( orgID, [qs, [headers,]] callback )`
-  * `getOrgs( [qs, [headers,]] callback )`
-  * `getUser( userID_or_emailAddr, [qs, [headers,]] allback )`
-  * `getUserPresence( userID_or_emailAddr, [qs, [headers,]] callback )`
-  * `getUsers( [qs, [headers,]] callback )`
-  * `getWorkspace( orgID, wsID, [qs, [headers,]] callback )`
-  * `getWorkspaceMembers( orgID, wsID, [qs, [headers,]] callback )`
-  * `getWorkspacesInOrg( orgID, [qs, [headers,]] callback )`
+### Generic HTTP Methods
 
-### Creating & Adding
-  * `postFile( orgID, wsID, inputStream, [qs, [headers,]] callback )`
-  * `postMessageToUser( orgID, userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-  * `postMessageToWorkspace( orgID, wsId, payload, [qs, [headers,]] callback )`
-  * `postNote( orgID, wsID, note, [qs, [headers,]] callback )`
-  * `postOrg( org, [qs, [headers,]] callback )`
-  * `postOrgMember( orgID, userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-  * `postUser( user, [qs, [headers,]] callback )`
-  * `postWorkspace( orgID, wsID, [qs, [headers,]] callback )`
-  * `postWorkspaceMember( orgID, wsId, userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-
-### Updating
-  * `putNote( orgID, wsID, noteID_or_noteUUID, payload, [qs, [headers,]] callback )`
-  * `putOrg( orgID, payload, [qs, [headers,]] callback )`
-  * `putOrgMember( orgID, userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-  * `putUser( userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-  * `putUserPresence( userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-  * `putWorkspace( orgID, wsID, payload, [qs, [headers,]] callback )`
-  * `putWorkspaceMember( orgID, wsID, userID_or_emailAddr, payload, [qs, [headers,]] callback )`
-
-### Destroying & Removing
-  * `deleteNote( orgID, wsID, noteID_or_noteUUID, [qs, [headers,]] callback )`
-  * `deleteOrg( orgID, [qs, [headers,]] callback )`
-  * `deleteOrgMember( orgID, userID_or_emailAddr, [qs, [headers,]] callback )`
-  * `deleteOrgs( [qs, [headers,]] callback )`
-  * `deleteUser( userID_or_emailAddr, [qs, [headers,]] callback )`
-  * `deleteWorkspace( orgID, wsID, [qs, [headers,]] callback )`
-  * `deleteWorkspaceMember( orgID, wsID, userID_or_emailAddr, [qs, [headers,]] callback )`
-
-### Testing & Debugging
-  * `deleteEcho( [qs, [headers,]] callback )`
-  * `getEcho( [qs, [headers,]] callback )`
-  * `getPing( [qs, [headers,]] callback )`
-  * `postEcho( body, [qs, [headers,]] callback )`
-  * `putEcho( body, [qs, [headers,]] callback )`
-
-
-## Arbitrary Methods
-
-In addition to the pre-defined methods, you may execute a request against an arbitrary path (below the Intellinote REST API "base URL") using the following methods:
+In addition to the pre-defined methods list below, you may execute a request against an arbitrary path (below the Intellinote REST API "base URL") using the following methods:
 
   * `get( path, [qs, [headers,]] callback )`
   * `put( path, body, [qs, [headers,]] callback )`
@@ -145,3 +95,91 @@ In addition to the pre-defined methods, you may execute a request against an arb
      * alternatively, `del( path, [qs, [headers,]] callback )`
 
 For each of these methods the callback signature is identical to that of the explicit API methods, namely `callback(err, json, response, body)`.
+
+### Pre-Defined Methods
+
+The following is a list of Intellinote REST API methods that are supported as functions in the Intellinote Client.
+
+The REST method and path are listed first, followed by the corresponding Intellinote Client function.  Note that each REST endpoint is made available under several aliases (all of which are listed here).  Each of these aliased methods are equivalent, it's just one method with several names.
+
+See [the Intellinote REST API documentation](https://app.intellinote.net/rest/api/v2/) for more information about these endpoints.
+
+#### Ping and Echo
+- **`GET    /ping`** &mdash; `getPing`, `get_ping`
+- **`GET    /echo`** &mdash; `getEcho`, `get_echo`
+- **`POST   /echo`** &mdash; `postEcho`, `post_echo`
+- **`PATCH  /echo`** &mdash; `patchEcho`, `patch_echo`
+- **`PUT    /echo`** &mdash; `putEcho`, `put_echo`
+- **`DELETE /echo`** &mdash; `deleteEcho`, `delete_echo`
+
+#### Users
+- **`GET    /user/{0}`** &mdash; `getUser`, `get_user`
+- **`GET    /user/{0}/presence`** &mdash; `getUserPresence`, `get_user_presence`
+- **`GET    /user/email/{0}/available`** &mdash; `getEmailAvailable`, `getUserEmailAvailable`, `get_email_available`, `get_user_email_available`
+- **`GET    /users`** &mdash; `getUsers`, `get_users`
+- **`GET    /users/dt`** &mdash; `getUsersDT`, `get_users_dt`
+- **`POST   /user`** &mdash; `postUser`, `post_user`
+- **`PUT    /user/{0}`** &mdash; `putUser`, `put_user`
+- **`PUT    /user/-/presence`** &mdash; `putUserPresence`, `put_user_presence`
+- **`DELETE /user/{0}`** &mdash; `deleteUser`, `delete_user`
+
+#### Organizations
+- **`GET    /orgs`** &mdash; `getOrgs`, `get_orgs`
+- **`GET    /org/{0}`** &mdash; `getOrg`, `get_org`
+- **`POST   /org`** &mdash; `postOrg`, `post_org`
+- **`PUT    /org/{0}`** &mdash; `putOrg`, `put_org`
+- **`DELETE /org/{0}`** &mdash; `deleteOrg`, `delete_org`
+
+#### Organization Members
+- **`GET    /org/{0}/members`** &mdash; `getOrgMembers`, `get_org_members`
+- **`GET    /org/{0}/members/count`** &mdash; `getOrgMemberCount`, `getOrgMembersCount`, `get_org_member_count`, `get_org_members_count`
+- **`POST   /org/{0}/member/{1}`** &mdash; `postOrgMember`, `post_org_member`
+- **`PUT    /org/{0}/member/{1}`** &mdash; `putOrgMember`, `put_org_member`
+- **`DELETE /org/{0}/member/{1}`** &mdash; `deleteOrgMember`, `delete_org_member`
+
+#### Workspaces
+- **`GET    /workspaces`** &mdash; `getWorkspaces`, `get_workspaces`
+- **`GET    /org/{0}/workspace/{1}`** &mdash; `getWorkspace`, `get_workspace`
+- **`GET    /org/{0}/workspaces`** &mdash; `getWorkspacesInOrg`, `get_workspaces_in_org`
+- **`POST   /org/{0}/workspace`** &mdash; `postWorkspace`, `post_workspace`
+- **`PUT    /org/{0}/workspace/{1}`** &mdash; `putWorkspace`, `put_workspace`
+- **`DELETE /org/{0}/workspace/{1}`** &mdash; `deleteWorkspace`, `delete_workspace`
+
+#### Workspace Members
+- **`GET    /org/{0}/workspace/{1}/members`** &mdash; `getWorkspaceMembers`, `get_workspace_members`
+- **`POST   /org/{0}/workspace/{1}/member/{2}`** &mdash; `postWorkspaceMember`, `post_workspace_member`
+- **`PUT    /org/{0}/workspace/{1}/member/{2}`** &mdash; `putWorkspaceMember`, `put_workspace_member`
+- **`DELETE /org/{0}/workspace/{1}/member/{2}`** &mdash; `deleteWorkspaceMember`, `delete_workspace_member`
+
+#### Notes (and Tasks, Files, etc.)
+- **`GET    /notes`** &mdash; `getNotes`, `get_notes`
+- **`GET    /note/{0}`** &mdash; `getNote`, `get_note`
+- **`POST   /org/{0}/workspace/{1}/note`** &mdash; `postNote`, `post_note`
+- **`PUT    /org/{0}/workspace/{1}/note/{2}`** &mdash; `putNote`, `put_note`
+- **`DELETE /org/{0}/workspace/{1}/note/{2}`** &mdash; `deleteNote`, `delete_note`
+- **`POST /org/{0}/workspace/{1}/file`** &mdash; `postFile`, `post_file` &ndash; note that `postFile` is a special case. It's method signature is
+    `( orgID, wsID, inputStream, [qs, [headers,]] callback )` where `inputStream` is a readable stream containing the data to be uploaded.
+
+#### Relations (Note-to-Note links)
+- **`POST   /relation`** &mdash; `postRelation`, `post_relation`
+- **`DELETE /relation/{0}`** &mdash; `deleteRelation`, `delete_relation`
+
+#### Tags
+- **`GET    /org/{0}/workspace/{1}/tag/{2}`** &mdash; `getTagByID`, `getTagById`, `get_tag_by_id`
+- **`GET    /org/{0}/workspace/{1}/tag`** &mdash; `getTag`, `get_tag`
+- **`GET    /org/{0}/workspace/{1}/tags`** &mdash; `getTags`, `get_tags`
+- **`PUT    /org/{0}/workspace/{1}/tag/{2}`** &mdash; `putTag`, `put_tag`
+- **`POST   /org/{0}/workspace/{1}/note/{2}/tag/{3}`** &mdash; `addTagToNote`, `add_tag_to_note`, `postNoteTag`, `postTagToNote`, `post_note_tag`, `post_tag_to_note`, `tagNote`, `tag_note`
+- **`POST   /org/{0}/workspace/{1}/note/{2}/tags`** &mdash; `addTagsToNote`, `add_tags_to_note`, `multiTagNote`, `multi_tag_note`, `postNoteTags`, `postTagsToNote`, `post_note_tags`, `post_tags_to_note`
+- **`DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3}`** &mdash; `deleteNoteTag`, `deleteTagFromNote`, `delete_note_tag`, `delete_tag_from_note`, `removeTagFromNote`, `remove_tag_from_note`, `untagNote`, `untag_note`
+- **`DELETE /org/{0}/workspace/{1}/note/{2}/tags`** &mdash; `deleteNoteTags`, `deleteTagsFromNote`, `delete_note_tags`, `delete_tags_from_note`, `multiUntagNote`, `multi_untag_note`, `removeTagsFromNote`, `remove_tags_from_note`
+- **`PUT /org/{0}/workspace/{1}/note/{2}/tags`** &mdash; `overwriteNoteTags`, `overwriteTagsForNote`, `overwrite_note_tags`, `overwrite_tags_for_note`, `putNoteTags`, `put_note_tags`, `setNoteTags`, `setTagsForNote`, `set_note_tags`, `set_tags_for_note`
+
+#### Chat Messages
+- **`GET    /org/{0}/chats`** &mdash; `getOrgChats`, `get_org_chats`
+- **`GET    /org/{0}/chats/new/count`** &mdash; `getNewChatCount`, `getNewChatsCount`, `get_new_chat_count`, `get_new_chats_count`
+- **`POST   /org/{0}/workspace/{1}/message`** &mdash; `postChat`, `postChatToWorkspace`, `postMessage`, `postMessageToWorkspace`, `postWorkspaceChat`, `postWorkspaceMessage`, `post_chat`, `post_chat_to_workspace`, `post_message`, `post_message_to_workspace`, `post_workspace_chat`, `post_workspace_message`
+- **`POST   /org/{0}/user/{1}/message`** &mdash; `postChatToUser`, `postDM`, `postDirectMessage`, `postMessageToUser`, `postUserChat`, `postUserMessage`, `post_chat_to_user`, `post_direct_message`, `post_dm`, `post_message_to_user`, `post_user_chat`, `post_user_message`
+
+#### RTM API
+- **`GET    /rtms/start`** &mdash; `getRTMSStart`, `getRTMStart`, `getRtmStart`, `getRtmsStart`, `get_rtm_start`, `get_rtms_start`, `startRTM`, `startRTMS`, `startRTMSession`, `startRtm`, `startRtmSession`, `startRtms`, `start_rtm`, `start_rtm_session`, `start_rtms`
