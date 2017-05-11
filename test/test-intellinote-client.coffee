@@ -31,13 +31,16 @@ else
       assert Intellinote?
       done()
 
-    # # disable this test since it is hard coded to a specific org/ws and creates real files
+    # # We've disabled this test since it is hard-coded to a specific
+    # # org/ws and creates real files. Re-enable it for one-off testing
+    # # as needed
     # it 'can post files', (done)->
+    #   @timeout 10000
     #   client = new Intellinote(access_token:ACCESS_TOKEN)
     #   input = fs.createReadStream(path.join(HOMEDIR,'README.md'))
     #   client.post_file 23343, 139114, input, (err, json, response, body)=>
-    #     console.log err, json, response?.statusCode, body
-    #     done()
+    #    console.log err, json, response?.statusCode, body
+    #    done()
 
     it 'can fetch my user profile', (done)->
       client = new Intellinote(access_token:ACCESS_TOKEN)
