@@ -155,8 +155,8 @@ See [the Intellinote REST API documentation](https://app.intellinote.net/rest/ap
 - **`GET    /notes`** &mdash; `getNotes`, `get_notes`
 - **`GET    /note/{0}`** &mdash; `getNote`, `get_note`
 - **`POST   /org/{0}/workspace/{1}/note`** &mdash; `postNote`, `post_note`
-- **`PUT    /org/{0}/workspace/{1}/note/{2}`** &mdash; `putNote`, `put_note`
-- **`DELETE /org/{0}/workspace/{1}/note/{2}`** &mdash; `deleteNote`, `delete_note`
+- **`PUT    /note/{0}`** &mdash; `putNote`, `put_note`
+- **`DELETE /note/{0}`** &mdash; `deleteNote`, `delete_note`
 - **`POST /org/{0}/workspace/{1}/file`** &mdash; `postFile`, `post_file` &ndash; note that `postFile` is a special case. It's method signature is
     `( orgID, wsID, inputStream, [qs, [headers,]] callback )` where `inputStream` is a readable stream containing the data to be uploaded.
 
