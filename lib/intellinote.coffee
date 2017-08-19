@@ -83,8 +83,10 @@ API_METHODS = {
   "GET    /notes"                                        : [ 0, [ "get_notes"                , "getNotes"                ] ]
   "GET    /note/{0}"                                     : [ 1, [ "get_note"                 , "getNote"                 ] ]
   "POST   /org/{0}/workspace/{1}/note"                   : [ 2, [ "post_note"                , "postNote"                ] ]
-  "PUT    /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "put_note"                 , "putNote"                 ] ]
-  "DELETE /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "delete_note"              , "deleteNote"              ] ]
+  # "PUT    /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "put_note"                 , "putNote"                 ] ]
+  "PUT    /note/{0}"                                     : [ 1, [ "put_note"                 , "putNote"                 ] ]
+  # "DELETE /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "delete_note"              , "deleteNote"              ] ]
+  "DELETE /note/{0}"                                     : [ 1, [ "delete_note"              , "deleteNote"              ] ]
 
   # RELATIONS (LINKS)
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
