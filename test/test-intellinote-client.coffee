@@ -6,6 +6,7 @@ LIB_DIR      = if fs.existsSync(LIB_COV) then LIB_COV else path.join(HOMEDIR,'li
 Intellinote  = require(path.join(LIB_DIR, 'intellinote')).Intellinote
 assert       = require('assert')
 ACCESS_TOKEN = process.env.ACCESS_TOKEN
+BASE_URL     = process.env.INTELLINOTE_HOST
 
 unless ACCESS_TOKEN?
   console.error "\x1b[0;31m"
@@ -43,7 +44,7 @@ else
     #    done()
 
     it 'can fetch my user profile', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.getUser "-", (err, user)->
         assert user?
         assert user.user_id?
@@ -56,8 +57,8 @@ else
         assert user.orgs.length > 0
         done()
 
-    it 'can pass extra query-string parameters (abd accepts access token as string)', (done)->
-      client = new Intellinote(ACCESS_TOKEN)
+    it 'can pass extra query-string parameters', (done)->
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.getUser "-", {inline_avatars:true}, (err, user)->
         assert user?
         assert user.user_id?
@@ -71,7 +72,7 @@ else
         done()
 
     it 'can submit GET requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.getEcho (err, resp)->
         assert not err?
         assert typeof resp is 'object'
@@ -80,7 +81,7 @@ else
         done()
 
     it 'can submit POST requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.postEcho {foo:"bar"}, (err, resp)->
         assert not err?
         assert typeof resp is 'object'
@@ -90,7 +91,7 @@ else
         done()
 
     it 'can submit PUT requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.putEcho {foo2:"bar2"}, (err, resp)->
         assert not err?
         assert typeof resp is 'object'
@@ -100,7 +101,7 @@ else
         done()
 
     it 'can submit PATCH requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.patchEcho {foo3:"bar3"}, (err, resp)->
         assert not err?
         assert typeof resp is 'object'
@@ -110,7 +111,7 @@ else
         done()
 
     it 'can submit DELETE requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.deleteEcho (err, resp)->
         assert not err?
         assert typeof resp is 'object'
@@ -119,7 +120,7 @@ else
         done()
 
     it 'can submit custom GET requests', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.get "/user/-", (err, ignored, response, body)->
         assert not err?
         assert body?
@@ -136,7 +137,7 @@ else
         done()
 
     it 'can submit custom POST requests, with custom headers', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.post "/echo", {foo:"bar"}, null, {"x-custom-header":"found"}, (err, json, response, body)->
         assert not err?
         assert typeof json is 'object'
@@ -147,7 +148,7 @@ else
         done()
 
     it 'can submit custom PUT requests, with query string', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.put "/echo", {foo:"bar"}, {x:"y"}, (err, json, response, body)->
         assert not err?
         assert json?
@@ -159,15 +160,41 @@ else
         done()
 
     it 'can handle error responses - bad token case', (done)->
-      client = new Intellinote(access_token:"not a real token")
+      client = new Intellinote(access_token:"not a real token", base_url:BASE_URL)
       client.get "/user/-", (err, ignored, response, body)->
-        assert err?
+        assert err?, body
         assert /Active authorization bearer token required/.test err.message
         done()
 
     it 'can handle error responses - bad URL case', (done)->
-      client = new Intellinote(access_token:ACCESS_TOKEN)
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
       client.get "/this/path/does/not/exist/user/-", (err, ignored, response, body)->
         assert err?
         assert /Expected 2xx status code, found 404/.test err.message
         done()
+
+    it 'can fetch and set my presence status', (done)->
+      client = new Intellinote(access_token:ACCESS_TOKEN, base_url:BASE_URL)
+      client.getUserPresenceStatus "-", (err, response)->
+        assert not err?, err
+        assert.equal response.ok, true
+        assert response.user_id?
+        assert response.presence_code?
+        original_presence_code = response.presence_code
+        client.putUserPresenceStatus "-", {presence_code:"busy-meeting-mobile"}, (err, response)->
+          assert not err?, err
+          assert.equal response.ok, true
+          client.getUserPresenceStatus "-", (err, response)->
+            assert not err?, err
+            assert.equal response.ok, true
+            assert response.user_id?
+            assert.equal response.presence_code, "5d"
+            client.putUserPresenceStatus "-", {presence_code:original_presence_code}, (err, response)->
+              assert not err?, err
+              assert.equal response.ok, true
+              client.getUserPresenceStatus "-", (err, response)->
+                assert not err?, err
+                assert.equal response.ok, true
+                assert response.user_id?
+                assert.equal response.presence_code, original_presence_code
+                done()
