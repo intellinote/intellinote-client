@@ -1,7 +1,8 @@
 # Intellinote REST Client for JavaScript / Node.js
 
-This module contains a Node.js class that wraps the [Intellinote REST API (v2)](https://api.intellinote.net/rest/api/v2/) in a simple interface.
+This module contains a Node.js class that wraps the [Intellinote REST API (v2)](https://www.intellinote.net/rest/api/v2/) in a simple interface.
 
+NOTE: Intellinote is now [BroadSoft Team-One](https://www.team-one.com/).
 ## Obtaining
 
 ### Via npm
@@ -69,7 +70,7 @@ Where:
   * The `QS` parameter is optional and may contain a map of name/value pairs that will be added to the request as query-string parameters.
 
 
-  * The `HEADERS` parameter is also optional and may contain a map of name/value pairs that will be added as request headers.  Note that if `HEADERS` is used, there must be _some_ value passed for `QS`, potentially `null`.  That is the map in `someGetMethod({foo:"bar"},callback)` will be interpreted as a collection of query-string parameters. To convice the client to interpret these values as headers, you may use `someGetMethod(null,{foo:"bar"},callback)` or `someGetMethod({},{foo:"bar"},callback)`.
+  * The `HEADERS` parameter is also optional and may contain a map of name/value pairs that will be added as request headers.  Note that if `HEADERS` is used, there must be _some_ value passed for `QS`, potentially `null`.  That is the map in `someGetMethod({foo:"bar"},callback)` will be interpreted as a collection of query-string parameters. To convince the client to interpret these values as headers, you may use `someGetMethod(null,{foo:"bar"},callback)` or `someGetMethod({},{foo:"bar"},callback)`.
 
 
   * Finally a callback method is passed.  That method is expected to have the signature `err, json, response, body`, where
@@ -183,3 +184,295 @@ See [the Intellinote REST API documentation](https://app.intellinote.net/rest/ap
 
 #### RTM API
 - **`GET    /rtms/start`** &mdash; `getRTMSStart`, `getRTMStart`, `getRtmStart`, `getRtmsStart`, `get_rtm_start`, `get_rtms_start`, `startRTM`, `startRTMS`, `startRTMSession`, `startRtm`, `startRtmSession`, `startRtms`, `start_rtm`, `start_rtm_session`, `start_rtms`
+
+
+### Complete List of Pre-defined Methods
+
+Here is the full list of REST methods explicitly defined in the client:
+
+ | JS Method Name                               | Equivalent REST Endpoint        |
+ |--------------------------------------------- | ------------------------------- |
+ | add_tag_to_note                              |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | add_tags_to_note                             |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | addTagsToNote                                |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | addTagToNote                                 |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | delete_call_history_call                     |  DELETE /call-history/call/{0} |
+ | delete_call_history_calls                    |  DELETE /call-history/calls |
+ | delete_contact                               |  DELETE /contact/{0} |
+ | delete_contact_group                         |  DELETE /contact-group/{0} |
+ | delete_contact_group_contact                 |  DELETE   /contact-group/{0}/contact/{1} |
+ | delete_echo                                  |  DELETE /echo |
+ | delete_note                                  |  DELETE /note/{0} |
+ | delete_note_tag                              |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | delete_note_tags                             |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | delete_org                                   |  DELETE /org/{0} |
+ | delete_org_member                            |  DELETE /org/{0}/member/{1} |
+ | delete_presence_org_roster                   |  DELETE /presence/org/{0}/roster/ |
+ | delete_presence_org_roster                   |  DELETE /presence/roster/{0} |
+ | delete_presence_user_status                  |  DELETE /presence/user/{0}/status |
+ | delete_relation                              |  DELETE /relation/{0} |
+ | delete_tag_from_note                         |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | delete_tags_from_note                        |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | delete_user                                  |  DELETE /user/{0} |
+ | delete_user_presence_status                  |  DELETE /presence/user/{0}/status |
+ | delete_voicemail_message                     |  DELETE /voicemail/message/{0} |
+ | delete_voicemail_message_waiting_indicator   |  DELETE /voicemail/message-waiting-indicator |
+ | delete_workspace                             |  DELETE /org/{0}/workspace/{1} |
+ | delete_workspace_member                      |  DELETE /org/{0}/workspace/{1}/member/{2} |
+ | deleteCallHistoryCall                        |  DELETE /call-history/call/{0} |
+ | deleteCallHistoryCalls                       |  DELETE /call-history/calls |
+ | deleteContact                                |  DELETE /contact/{0} |
+ | deleteContactGroup                           |  DELETE /contact-group/{0} |
+ | deleteContactGroupContact                    |  DELETE   /contact-group/{0}/contact/{1} |
+ | deleteEcho                                   |  DELETE /echo |
+ | deleteNote                                   |  DELETE /note/{0} |
+ | deleteNoteTag                                |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | deleteNoteTags                               |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | deleteOrg                                    |  DELETE /org/{0} |
+ | deleteOrgMember                              |  DELETE /org/{0}/member/{1} |
+ | deletePresenceOrgRoster                      |  DELETE /presence/roster/{0} |
+ | deletePresenceRoster                         |  DELETE /presence/org/{0}/roster/ |
+ | deletePresenceUserStatus                     |  DELETE /presence/user/{0}/status |
+ | deleteRelation                               |  DELETE /relation/{0} |
+ | deleteTagFromNote                            |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | deleteTagsFromNote                           |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | deleteUser                                   |  DELETE /user/{0} |
+ | deleteUserPresenceStatus                     |  DELETE /presence/user/{0}/status |
+ | deleteVoicemailMessage                       |  DELETE /voicemail/message/{0} |
+ | deleteVoicemailMessageIndicator              |  DELETE /voicemail/message-waiting-indicator |
+ | deleteWorkspace                              |  DELETE /org/{0}/workspace/{1} |
+ | deleteWorkspaceMember                        |  DELETE /org/{0}/workspace/{1}/member/{2} |
+ | get_call_history_calls                       |  GET    /call-history/calls |
+ | get_contact                                  |  GET    /contact/{0} |
+ | get_contact_group                            |  GET    /contact-group/{0} |
+ | get_contact_groups                           |  GET    /contact-groups |
+ | get_contacts                                 |  GET    /contacts |
+ | get_directory_entries                        |  GET    /directory/entries |
+ | get_echo                                     |  GET    /echo |
+ | get_email_available                          |  GET    /user/email/{0}/available |
+ | get_new_chat_count                           |  GET    /org/{0}/chats/new/count |
+ | get_new_chats_count                          |  GET    /org/{0}/chats/new/count |
+ | get_note                                     |  GET    /note/{0} |
+ | get_notes                                    |  GET    /notes |
+ | get_org                                      |  GET    /org/{0} |
+ | get_org_chats                                |  GET    /org/{0}/chats |
+ | get_org_member_count                         |  GET    /org/{0}/members/count |
+ | get_org_members                              |  GET    /org/{0}/members |
+ | get_org_members_count                        |  GET    /org/{0}/members/count |
+ | get_org_roster_presence_status               |  GET    /presence/org/{0}/roster/status |
+ | get_org_workspace_meeting                    |  GET    /org/{0}/workspace/{0}/meeting |
+ | get_org_workspace_meeting_by_external_id     |  GET    /org/{0}/workspace/{0}/meeting/{1} |
+ | get_orgs                                     |  GET    /orgs |
+ | get_ping                                     |  GET    /ping |
+ | get_presence_org_roster                      |  GET    /presence/org/{0}/roster/ |
+ | get_presence_org_roster_status               |  GET    /presence/org/{0}/roster/status |
+ | get_presence_roster                          |  GET    /presence/roster/{0} |
+ | get_presence_roster_status                   |  GET    /presence/roster/{0}/status |
+ | get_presence_user_status                     |  GET    /presence/user/{0}/status |
+ | get_roster_presence_status                   |  GET    /presence/roster/{0}/status |
+ | get_rtm_start                                |  GET    /rtms/start |
+ | get_rtms_start                               |  GET    /rtms/start |
+ | get_tag                                      |  GET    /org/{0}/workspace/{1}/tag |
+ | get_tag_by_id                                |  GET    /org/{0}/workspace/{1}/tag/{2} |
+ | get_tags                                     |  GET    /org/{0}/workspace/{1}/tags |
+ | get_user                                     |  GET    /user/{0} |
+ | get_user_email_available                     |  GET    /user/email/{0}/available |
+ | get_user_presence                            |  GET    /user/{0}/presence |
+ | get_user_presence_status                     |  GET    /presence/user/{0}/status |
+ | get_users                                    |  GET    /users |
+ | get_users_dt                                 |  GET    /users/dt |
+ | get_voicemail_message                        |  GET    /voicemail/message/{0} |
+ | get_voicemail_messages                       |  GET    /voicemail/messages |
+ | get_voicemail_messages_summary               |  GET    /voicemail/messages/summary |
+ | get_workspace                                |  GET    /org/{0}/workspace/{1} |
+ | get_workspace_members                        |  GET    /org/{0}/workspace/{1}/members |
+ | get_workspaces                               |  GET    /workspaces |
+ | get_workspaces_in_org                        |  GET    /org/{0}/workspaces |
+ | getCallHistoryCalls                          |  GET    /call-history/calls |
+ | getContact                                   |  GET    /contact/{0} |
+ | getContactGroup                              |  GET    /contact-group/{0} |
+ | getContactGroups                             |  GET    /contact-groups |
+ | getContacts                                  |  GET    /contacts |
+ | getDirectoryEntries                          |  GET    /directory/entries |
+ | getEcho                                      |  GET    /echo |
+ | getEmailAvailable                            |  GET    /user/email/{0}/available |
+ | getNewChatCount                              |  GET    /org/{0}/chats/new/count |
+ | getNewChatsCount                             |  GET    /org/{0}/chats/new/count |
+ | getNote                                      |  GET    /note/{0} |
+ | getNotes                                     |  GET    /notes |
+ | getOrg                                       |  GET    /org/{0} |
+ | getOrgChats                                  |  GET    /org/{0}/chats |
+ | getOrgMemberCount                            |  GET    /org/{0}/members/count |
+ | getOrgMembers                                |  GET    /org/{0}/members |
+ | getOrgMembersCount                           |  GET    /org/{0}/members/count |
+ | getOrgRosterPresenceStatus                   |  GET    /presence/org/{0}/roster/status |
+ | getOrgs                                      |  GET    /orgs |
+ | getOrgWorkspaceMeeting                       |  GET    /org/{0}/workspace/{0}/meeting |
+ | getOrgWorkspaceMeetingByExternalId           |  GET    /org/{0}/workspace/{0}/meeting/{1} |
+ | getPing                                      |  GET    /ping |
+ | getPresenceOrgRoster                         |  GET    /presence/org/{0}/roster/ |
+ | getPresenceOrgRosterStatus                   |  GET    /presence/org/{0}/roster/status |
+ | getPresenceRoster                            |  GET    /presence/roster/{0} |
+ | getPresenceRosterStatus                      |  GET    /presence/roster/{0}/status |
+ | getPresenceUserStatus                        |  GET    /presence/user/{0}/status |
+ | getRosterPresenceStatus                      |  GET    /presence/roster/{0}/status |
+ | getRtmsStart                                 |  GET    /rtms/start |
+ | getRTMSStart                                 |  GET    /rtms/start |
+ | getRtmStart                                  |  GET    /rtms/start |
+ | getRTMStart                                  |  GET    /rtms/start |
+ | getTag                                       |  GET    /org/{0}/workspace/{1}/tag |
+ | getTagById                                   |  GET    /org/{0}/workspace/{1}/tag/{2} |
+ | getTagByID                                   |  GET    /org/{0}/workspace/{1}/tag/{2} |
+ | getTags                                      |  GET    /org/{0}/workspace/{1}/tags |
+ | getUser                                      |  GET    /user/{0} |
+ | getUserEmailAvailable                        |  GET    /user/email/{0}/available |
+ | getUserPresence                              |  GET    /user/{0}/presence |
+ | getUserPresenceStatus                        |  GET    /presence/user/{0}/status |
+ | getUsers                                     |  GET    /users |
+ | getUsersDT                                   |  GET    /users/dt |
+ | getVoicemailMessage                          |  GET    /voicemail/message/{0} |
+ | getVoicemailMessages                         |  GET    /voicemail/messages |
+ | getVoicemailMessagesSummary                  |  GET    /voicemail/messages/summary |
+ | getWorkspace                                 |  GET    /org/{0}/workspace/{1} |
+ | getWorkspaceMembers                          |  GET    /org/{0}/workspace/{1}/members |
+ | getWorkspaces                                |  GET    /workspaces |
+ | getWorkspacesInOrg                           |  GET    /org/{0}/workspaces |
+ | multi_tag_note                               |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | multi_untag_note                             |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | multiTagNote                                 |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | multiUntagNote                               |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | overwrite_note_tags                          |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | overwrite_tags_for_note                      |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | overwriteNoteTags                            |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | overwriteTagsForNote                         |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | patch_echo                                   |  PATCH  /echo |
+ | patchEcho                                    |  PATCH  /echo |
+ | post_action_send_password_reset_email        |  POST   /user/{0}/action/send-password-reset-email |
+ | post_chat                                    |  POST   /org/{0}/workspace/{1}/message |
+ | post_chat_to_note                            |  POST   /note/{0}/message |
+ | post_chat_to_user                            |  POST   /org/{0}/user/{1}/message |
+ | post_chat_to_workspace                       |  POST   /org/{0}/workspace/{1}/message |
+ | post_contact                                 |  POST   /contact |
+ | post_contact_group                           |  POST   /contact-group |
+ | post_contact_group_contact                   |  POST   /contact-group/{0}/contact/{1} |
+ | post_direct_message                          |  POST   /org/{0}/user/{1}/message |
+ | post_dm                                      |  POST   /org/{0}/user/{1}/message |
+ | post_echo                                    |  POST   /echo |
+ | post_message                                 |  POST   /org/{0}/workspace/{1}/message |
+ | post_message_to_note                         |  POST   /note/{0}/message |
+ | post_message_to_user                         |  POST   /org/{0}/user/{1}/message |
+ | post_message_to_workspace                    |  POST   /org/{0}/workspace/{1}/message |
+ | post_note                                    |  POST   /org/{0}/workspace/{1}/note |
+ | post_note_chat                               |  POST   /note/{0}/message |
+ | post_note_message                            |  POST   /note/{0}/message |
+ | post_note_tag                                |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | post_note_tags                               |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | post_org                                     |  POST   /org |
+ | post_org_member                              |  POST   /org/{0}/member/{1} |
+ | post_presence_org_roster                     |  POST   /presence/org/{0}/roster |
+ | post_presence_roster                         |  POST   /presence/roster |
+ | post_relation                                |  POST   /relation |
+ | post_tag_to_note                             |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | post_tags_to_note                            |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | post_user                                    |  POST   /user |
+ | post_user_chat                               |  POST   /org/{0}/user/{1}/message |
+ | post_user_message                            |  POST   /org/{0}/user/{1}/message |
+ | post_voicemail_message_waiting_indicator     |  POST   /voicemail/message-waiting-indicator |
+ | post_workspace                               |  POST   /org/{0}/workspace |
+ | post_workspace_chat                          |  POST   /org/{0}/workspace/{1}/message |
+ | post_workspace_member                        |  POST   /org/{0}/workspace/{1}/member/{2} |
+ | post_workspace_message                       |  POST   /org/{0}/workspace/{1}/message |
+ | postActionSendPasswordResetEmail             |  POST   /user/{0}/action/send-password-reset-email |
+ | postChat                                     |  POST   /org/{0}/workspace/{1}/message |
+ | postChatToNote                               |  POST   /note/{0}/message |
+ | postChatToUser                               |  POST   /org/{0}/user/{1}/message |
+ | postChatToWorkspace                          |  POST   /org/{0}/workspace/{1}/message |
+ | postContact                                  |  POST   /contact |
+ | postContactGroup                             |  POST   /contact-group |
+ | postContactGroupContact                      |  POST   /contact-group/{0}/contact/{1} |
+ | postDirectMessage                            |  POST   /org/{0}/user/{1}/message |
+ | postDM                                       |  POST   /org/{0}/user/{1}/message |
+ | postEcho                                     |  POST   /echo |
+ | postMessage                                  |  POST   /org/{0}/workspace/{1}/message |
+ | postMessageToNote                            |  POST   /note/{0}/message |
+ | postMessageToUser                            |  POST   /org/{0}/user/{1}/message |
+ | postMessageToWorkspace                       |  POST   /org/{0}/workspace/{1}/message |
+ | postNote                                     |  POST   /org/{0}/workspace/{1}/note |
+ | postNoteChat                                 |  POST   /note/{0}/message |
+ | postNoteMessage                              |  POST   /note/{0}/message |
+ | postNoteTag                                  |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | postNoteTags                                 |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | postOrg                                      |  POST   /org |
+ | postOrgMember                                |  POST   /org/{0}/member/{1} |
+ | postPresenceOrgRoster                        |  POST   /presence/org/{0}/roster |
+ | postPresenceRoster                           |  POST   /presence/roster |
+ | postRelation                                 |  POST   /relation |
+ | postTagsToNote                               |  POST   /org/{0}/workspace/{1}/note/{2}/tags |
+ | postTagToNote                                |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | postUser                                     |  POST   /user |
+ | postUserChat                                 |  POST   /org/{0}/user/{1}/message |
+ | postUserMessage                              |  POST   /org/{0}/user/{1}/message |
+ | postVoicemailMessageIndicator                |  POST   /voicemail/message-waiting-indicator |
+ | postWorkspace                                |  POST   /org/{0}/workspace |
+ | postWorkspaceChat                            |  POST   /org/{0}/workspace/{1}/message |
+ | postWorkspaceMember                          |  POST   /org/{0}/workspace/{1}/member/{2} |
+ | postWorkspaceMessage                         |  POST   /org/{0}/workspace/{1}/message |
+ | put_contact                                  |  PUT    /contact/{0} |
+ | put_contact_group                            |  PUT    /contact-group/{0} |
+ | put_echo                                     |  PUT    /echo |
+ | put_note                                     |  PUT    /note/{0} |
+ | put_note_tags                                |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | put_org                                      |  PUT    /org/{0} |
+ | put_org_member                               |  PUT    /org/{0}/member/{1} |
+ | put_presence_user_status                     |  PUT    /presence/user/{0}/status |
+ | put_tag                                      |  PUT    /org/{0}/workspace/{1}/tag/{2} |
+ | put_user                                     |  PUT    /user/{0} |
+ | put_user_presence                            |  PUT    /user/-/presence |
+ | put_user_presence_status                     |  PUT    /presence/user/{0}/status |
+ | put_voicemail_message_read                   |  PUT    /voicemail/message/{0}/read |
+ | put_voicemail_message_unread                 |  PUT    /voicemail/message/{0}/unread |
+ | put_voicemail_messages_read                  |  PUT    /voicemail/message/read |
+ | put_voicemail_messages_unread                |  PUT    /voicemail/message/unread |
+ | put_workspace                                |  PUT    /org/{0}/workspace/{1} |
+ | put_workspace_member                         |  PUT    /org/{0}/workspace/{1}/member/{2} |
+ | putContact                                   |  PUT    /contact/{0} |
+ | putContactGroup                              |  PUT    /contact-group/{0} |
+ | putEcho                                      |  PUT    /echo |
+ | putNote                                      |  PUT    /note/{0} |
+ | putNoteTags                                  |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | putOrg                                       |  PUT    /org/{0} |
+ | putOrgMember                                 |  PUT    /org/{0}/member/{1} |
+ | putPresenceUserStatus                        |  PUT    /presence/user/{0}/status |
+ | putTag                                       |  PUT    /org/{0}/workspace/{1}/tag/{2} |
+ | putUser                                      |  PUT    /user/{0} |
+ | putUserPresence                              |  PUT    /user/-/presence |
+ | putUserPresenceStatus                        |  PUT    /presence/user/{0}/status |
+ | putVoicemailMessageRead                      |  PUT    /voicemail/message/{0}/read |
+ | putVoicemailMessagesRead                     |  PUT    /voicemail/message/read |
+ | putVoicemailMessagesUnread                   |  PUT    /voicemail/message/unread |
+ | putVoicemailMessageUnread                    |  PUT    /voicemail/message/{0}/unread |
+ | putWorkspace                                 |  PUT    /org/{0}/workspace/{1} |
+ | putWorkspaceMember                           |  PUT    /org/{0}/workspace/{1}/member/{2} |
+ | remove_tag_from_note                         |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | remove_tags_from_note                        |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | removeTagFromNote                            |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | removeTagsFromNote                           |  DELETE /org/{0}/workspace/{1}/note/{2}/tags |
+ | send_password_reset_email                    |  POST   /user/{0}/action/send-password-reset-email |
+ | sendPasswordResetEmail                       |  POST   /user/{0}/action/send-password-reset-email |
+ | set_note_tags                                |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | set_tags_for_note                            |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | setNoteTags                                  |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | setTagsForNote                               |  PUT    /org/{0}/workspace/{1}/note/{2}/tags |
+ | start_rtm                                    |  GET    /rtms/start |
+ | start_rtm_session                            |  GET    /rtms/start |
+ | start_rtms                                   |  GET    /rtms/start |
+ | startRtm                                     |  GET    /rtms/start |
+ | startRTM                                     |  GET    /rtms/start |
+ | startRtms                                    |  GET    /rtms/start |
+ | startRTMS                                    |  GET    /rtms/start |
+ | startRtmSession                              |  GET    /rtms/start |
+ | startRTMSession                              |  GET    /rtms/start |
+ | tag_note                                     |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | tagNote                                      |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | untag_note                                   |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | untagNote                                    |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |

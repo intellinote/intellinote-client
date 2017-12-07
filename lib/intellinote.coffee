@@ -505,7 +505,7 @@ class Intellinote
   _log_request_duration:(duration)=>
     @_debug_message "elapsed time: #{duration[0]}.#{duration[1]} seconds."
 
-exports.Intellinote = exports.IntellinoteClient = Intellinote
+exports.Intellinote = exports.IntellinoteClient = exports.TeamOne = exports.TeamOneClient = Intellinote
 
 
 if require.main is module
