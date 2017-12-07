@@ -35,15 +35,16 @@ API_METHODS = {
   # USERS
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
   "GET    /user/{0}"                                     : [ 1, [ "get_user"                 , "getUser"                 ] ]
-  "GET    /user/{0}/presence"                            : [ 1, [ "get_user_presence"        , "getUserPresence"         ] ]
-  "GET    /user/email/{0}/available"                     : [ 1, [ "get_user_email_available" , "getUserEmailAvailable"  ,
-                                                                 "get_email_available"      , "getEmailAvailable"        ] ]
+  "GET    /user/{0}/presence"                            : [ 1, [ "get_user_presence"        , "getUserPresence"         ] ] # DEPRECATED
+  "GET    /user/email/{0}/available"                     : [ 1, [ "get_user_email_available" , "getUserEmailAvailable"  ,    # DEPRECATED
+                                                                  "get_email_available"      , "getEmailAvailable"        ] ]
   "GET    /users"                                        : [ 0, [ "get_users"                , "getUsers"                ] ]
   "GET    /users/dt"                                     : [ 0, [ "get_users_dt"             , "getUsersDT"              ] ] # DataTables compatible version of `GET /users`; see https://www.datatables.net/
   "POST   /user"                                         : [ 0, [ "post_user"                , "postUser"                ] ]
   "PUT    /user/{0}"                                     : [ 1, [ "put_user"                 , "putUser"                 ] ]
   "PUT    /user/-/presence"                              : [ 0, [ "put_user_presence"        , "putUserPresence"         ] ]
   "DELETE /user/{0}"                                     : [ 1, [ "delete_user"              , "deleteUser"              ] ]
+  "POST   /user/{0}/action/send-password-reset-email"    : [ 1, [ "post_action_send_password_reset_email" , "postActionSendPasswordResetEmail", "send_password_reset_email", "sendPasswordResetEmail" ] ]
 
   # ORGS
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
@@ -55,8 +56,8 @@ API_METHODS = {
 
   # ORG MEMBERS
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
-  "GET    /org/{0}/members"                              : [ 1, [ "get_org_members"          , "getOrgMembers"           ] ]
-  "GET    /org/{0}/members/count"                        : [ 1, [ "get_org_members_count"    , "getOrgMembersCount"     ,
+  "GET    /org/{0}/members"                              : [ 1, [ "get_org_members"          , "getOrgMembers"           ] ] # DEPRECATED (use GET /users?org_id=X)
+  "GET    /org/{0}/members/count"                        : [ 1, [ "get_org_members_count"    , "getOrgMembersCount"     ,    # DEPRECATED (use GET /users?org_id=X&meta=1&limit=1)
                                                                   "get_org_member_count"     , "getOrgMemberCount"       ] ]
   "POST   /org/{0}/member/{1}"                           : [ 2, [ "post_org_member"          , "postOrgMember"           ] ]
   "PUT    /org/{0}/member/{1}"                           : [ 2, [ "put_org_member"           , "putOrgMember"            ] ]
@@ -73,7 +74,7 @@ API_METHODS = {
 
   # WORKSPACE MEMBERS
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
-  "GET    /org/{0}/workspace/{1}/members"                : [ 2, [ "get_workspace_members"    , "getWorkspaceMembers"     ] ]
+  "GET    /org/{0}/workspace/{1}/members"                : [ 2, [ "get_workspace_members"    , "getWorkspaceMembers"     ] ] # DEPRECATED (use GET /users?workspace_id=X)
   "POST   /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "post_workspace_member"    , "postWorkspaceMember"     ] ]
   "PUT    /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "put_workspace_member"     , "putWorkspaceMember"      ] ]
   "DELETE /org/{0}/workspace/{1}/member/{2}"             : [ 3, [ "delete_workspace_member"  , "deleteWorkspaceMember"   ] ]
@@ -87,6 +88,25 @@ API_METHODS = {
   "PUT    /note/{0}"                                     : [ 1, [ "put_note"                 , "putNote"                 ] ]
   # "DELETE /org/{0}/workspace/{1}/note/{2}"               : [ 3, [ "delete_note"              , "deleteNote"              ] ]
   "DELETE /note/{0}"                                     : [ 1, [ "delete_note"              , "deleteNote"              ] ]
+
+  # PRESENCE
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /presence/user/{0}/status"                      : [ 1, [ "get_user_presence_status", "get_presence_user_status", "getUserPresenceStatus", "getPresenceUserStatus" ] ]
+  "DELETE /presence/user/{0}/status"                      : [ 1, [ "delete_user_presence_status", "delete_presence_user_status", "deleteUserPresenceStatus", "deletePresenceUserStatus" ] ]
+  "PUT    /presence/user/{0}/status"                      : [ 1, [ "put_user_presence_status", "put_presence_user_status", "putUserPresenceStatus", "putPresenceUserStatus" ] ]
+  "POST   /presence/roster"                               : [ 0, [ "post_presence_roster", "postPresenceRoster"  ] ]
+  "GET    /presence/roster/{0}"                           : [ 1, [ "get_presence_roster", "getPresenceRoster"  ] ]
+  "GET    /presence/roster/{0}/status"                    : [ 1, [ "get_presence_roster_status", "getPresenceRosterStatus", "get_roster_presence_status", "getRosterPresenceStatus" ] ]
+  "DELETE /presence/roster/{0}"                           : [ 1, [ "delete_presence_org_roster", "deletePresenceOrgRoster"  ] ]
+  "POST   /presence/org/{0}/roster"                       : [ 1, [ "post_presence_org_roster", "postPresenceOrgRoster"  ] ]
+  "GET    /presence/org/{0}/roster/"                      : [ 1, [ "get_presence_org_roster", "getPresenceOrgRoster"  ] ]
+  "GET    /presence/org/{0}/roster/status"                : [ 1, [ "get_presence_org_roster_status", "getPresenceOrgRosterStatus", "get_org_roster_presence_status", "getOrgRosterPresenceStatus" ] ]
+  "DELETE /presence/org/{0}/roster/"                      : [ 1, [ "delete_presence_org_roster", "deletePresenceRoster"  ] ]
+
+  # MEETINGS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /org/{0}/workspace/{0}/meeting"                : [ 2, [ "get_org_workspace_meeting", "getOrgWorkspaceMeeting"  ] ]
+  "GET    /org/{0}/workspace/{0}/meeting/{1}"            : [ 1, [ "get_org_workspace_meeting_by_external_id", "getOrgWorkspaceMeetingByExternalId"  ] ]
 
   # RELATIONS (LINKS)
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
@@ -121,6 +141,44 @@ API_METHODS = {
                                                                   "set_note_tags"            , "setNoteTags"           ,
                                                                   "overwrite_tags_for_note"  , "overwriteTagsForNote"  ,
                                                                   "overwrite_note_tags"      , "overwriteNoteTags"      ] ]
+  # CONTACTS
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /contacts"                                     : [ 0, [ "get_contacts"                , "getContacts"               ] ]
+  "GET    /contact/{0}"                                  : [ 1, [ "get_contact"                 , "getContact"                ] ]
+  "POST   /contact"                                      : [ 0, [ "post_contact"                , "postContact"               ] ]
+  "PUT    /contact/{0}"                                  : [ 1, [ "put_contact"                 , "putContact"                ] ]
+  "DELETE /contact/{0}"                                  : [ 1, [ "delete_contact"              , "deleteContact"             ] ]
+  "GET    /contact-groups"                               : [ 0, [ "get_contact_groups"          , "getContactGroups"          ] ]
+  "GET    /contact-group/{0}"                            : [ 1, [ "get_contact_group"           , "getContactGroup"           ] ]
+  "POST   /contact-group"                                : [ 0, [ "post_contact_group"          , "postContactGroup"          ] ]
+  "PUT    /contact-group/{0}"                            : [ 1, [ "put_contact_group"           , "putContactGroup"           ] ]
+  "DELETE /contact-group/{0}"                            : [ 1, [ "delete_contact_group"        , "deleteContactGroup"        ] ]
+  "POST   /contact-group/{0}/contact/{1}"                : [ 2, [ "post_contact_group_contact"  , "postContactGroupContact"   ] ]
+  "DELETE   /contact-group/{0}/contact/{1}"              : [ 2, [ "delete_contact_group_contact", "deleteContactGroupContact" ] ]
+
+  # DIRECTORIES
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /directory/entries"                            : [ 0, [ "get_directory_entries"    , "getDirectoryEntries"     ] ]
+
+  # VOICEMAIL
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /voicemail/messages/summary"                    : [ 0, [ "get_voicemail_messages_summary"    , "getVoicemailMessagesSummary"     ] ]
+  "GET    /voicemail/messages"                            : [ 0, [ "get_voicemail_messages"    , "getVoicemailMessages"     ] ]
+  "GET    /voicemail/message/{0}"                         : [ 1, [ "get_voicemail_message"    , "getVoicemailMessage"     ] ]
+  "PUT    /voicemail/message/{0}/read"                    : [ 1, [ "put_voicemail_message_read"    , "putVoicemailMessageRead"     ] ]
+  "PUT    /voicemail/message/{0}/unread"                  : [ 1, [ "put_voicemail_message_unread"    , "putVoicemailMessageUnread"     ] ]
+  "PUT    /voicemail/message/read"                        : [ 0, [ "put_voicemail_messages_read"    , "putVoicemailMessagesRead"     ] ]
+  "PUT    /voicemail/message/unread"                      : [ 0, [ "put_voicemail_messages_unread"    , "putVoicemailMessagesUnread"     ] ]
+  "DELETE /voicemail/message/{0}"                         : [ 1, [ "delete_voicemail_message"    , "deleteVoicemailMessage"     ] ]
+  "POST   /voicemail/message-waiting-indicator"           : [ 0, [ "post_voicemail_message_waiting_indicator"    , "postVoicemailMessageIndicator"     ] ]
+  "DELETE /voicemail/message-waiting-indicator"           : [ 0, [ "delete_voicemail_message_waiting_indicator"    , "deleteVoicemailMessageIndicator"     ] ]
+
+  # CALL HISTORY
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /call-history/calls"                           : [ 0, [ "get_call_history_calls"    , "getCallHistoryCalls"     ] ]
+  "DELETE /call-history/calls"                           : [ 0, [ "delete_call_history_calls"    , "deleteCallHistoryCalls"     ] ]
+  "DELETE /call-history/call/{0}"                        : [ 0, [ "delete_call_history_call"    , "deleteCallHistoryCall"     ] ]
+
   # CHATS
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
   "GET    /org/{0}/chats"                                : [ 1, [ "get_org_chats"            , "getOrgChats"             ] ]
@@ -137,7 +195,11 @@ API_METHODS = {
                                                                   "post_user_chat"           , "postUserChat"           ,
                                                                   "post_user_message"        , "postUserMessage"        ,
                                                                   "post_chat_to_user"        , "postChatToUser"         ,
-                                                                  "post_message_to_user"     , "postMessageToUser"       ] ]
+                                                                  "post_message_to_user"     , "postMessageToUser"      ] ]
+  "POST   /note/{0}/message"                             : [ 1, [ "post_note_chat"           , "postNoteChat"             ,
+                                                                  "post_note_message"        , "postNoteMessage"          ,
+                                                                  "post_chat_to_note"        , "postChatToNote"          ,
+                                                                  "post_message_to_note"     , "postMessageToNote"       ] ]
   # RTM
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
   "GET    /rtms/start"                                   : [ 0, [ "get_rtms_start"           , "getRtmsStart"           ,
@@ -443,7 +505,7 @@ class Intellinote
   _log_request_duration:(duration)=>
     @_debug_message "elapsed time: #{duration[0]}.#{duration[1]} seconds."
 
-exports.Intellinote = exports.IntellinoteClient = Intellinote
+exports.Intellinote = exports.IntellinoteClient = exports.TeamOne = exports.TeamOneClient = Intellinote
 
 
 if require.main is module
