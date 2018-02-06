@@ -19,7 +19,7 @@ unless ACCESS_TOKEN?
   console.error "\x1b[0;31m"
   console.error "       If you have an Intellinote account, you may obtain a token at:"
   console.error "\x1b[1;34m"
-  console.error "          https://app.intellinote.net/rest/account/api-tokens"
+  console.error "          https://app.us.team-one.com/rest/account/api-tokens"
   console.error "\x1b[1;31m"
   console.error "Aborting test execution due to missing ACCESS_TOKEN."
   console.error "\x1b[0m"

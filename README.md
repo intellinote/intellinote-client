@@ -19,7 +19,7 @@ Clone the repository with `git clone git@github.com:intellinote/inote-util.git` 
 
 ## Using
 
-To use the library you'll need an OAuth2 "access-token" value, which you can obtain via the OAuth2 process or generate at <https://api.intellinote.net/rest/account/api-tokens>.
+To use the library you'll need an OAuth2 "access-token" value, which you can obtain via the OAuth2 process or generate at <https://app.us.team-one.com/rest/account/api-tokens>.
 
 Once installed, the usage is straightforward:
 
@@ -39,7 +39,7 @@ client.getNotes({note_type:"CHAT"},function (err, notes) {
 })
 ```
 
-Each API method directly corresponds with a REST endpoint (as described [here](https://api.intellinote.net/rest/api/v2/)). In the example above, the `client.getNotes` call corresponds to [`GET /notes`](https://api.intellinote.net/rest/api/v2/#!/notes/get_notes).
+Each API method directly corresponds with a REST endpoint (as described [here](https://app.us.team-one.com/rest/api/v2/)). In the example above, the `client.getNotes` call corresponds to [`GET /notes`](https://app.us.team-one.com/rest/api/v2/#!/notes/get_notes).
 
 Each API method accepts a set of parameters which depend upon the specific method to be invoked.  In the most general form, each API method has the following signature:
 
@@ -103,7 +103,7 @@ The following is a list of Intellinote REST API methods that are supported as fu
 
 The REST method and path are listed first, followed by the corresponding Intellinote Client function.  Note that each REST endpoint is made available under several aliases (all of which are listed here).  Each of these aliased methods are equivalent, it's just one method with several names.
 
-See [the Intellinote REST API documentation](https://app.intellinote.net/rest/api/v2/) for more information about these endpoints.
+See [the Intellinote REST API documentation](https://app.us.team-one.com/rest/api/v2/) for more information about these endpoints.
 
 #### Ping and Echo
 - **`GET    /ping`** &mdash; `getPing`, `get_ping`
