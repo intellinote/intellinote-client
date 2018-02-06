@@ -2,7 +2,7 @@ request          = require 'request'
 FormData         = require 'form-data'
 url              = require 'url'
 DEBUG            = /(^|,)(intell)?inote(-?api)?(-?client)?(,|$)/i.test process.env.NODE_DEBUG
-DEFAULT_BASE_URL = "https://api.intellinote.net/rest/v2"
+DEFAULT_BASE_URL = "https://app.us.team-one.com/rest/v2"
 
 ###############################################################################
 #### API METHOD DEFINITION
@@ -219,7 +219,7 @@ class Intellinote
 
   # Configuration options:
   #  `access_token` - oauth access token (required)
-  #  `base_url` - base URL for REST methods (defaults to `https://api.intellinote.net/rest/v2`)
+  #  `base_url` - base URL for REST methods (defaults to `https://app.us.team-one.com/rest/v2`)
   #  `debug` - when true, extra debugging output is written to stdout
   constructor:(config)->
     config ?= {}
