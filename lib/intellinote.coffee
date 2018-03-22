@@ -155,6 +155,7 @@ API_METHODS = {
   "DELETE /contact-group/{0}"                            : [ 1, [ "delete_contact_group"        , "deleteContactGroup"        ] ]
   "POST   /contact-group/{0}/contact/{1}"                : [ 2, [ "post_contact_group_contact"  , "postContactGroupContact"   ] ]
   "DELETE   /contact-group/{0}/contact/{1}"              : [ 2, [ "delete_contact_group_contact", "deleteContactGroupContact" ] ]
+  "GET    /user/{0}/contacts"                            : [ 1, [ "get_user_contacts"            , "getUserContacts"          ] ]
 
   # DIRECTORIES
   #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
