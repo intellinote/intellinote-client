@@ -476,3 +476,4 @@ Here is the full list of REST methods explicitly defined in the client:
  | tagNote                                      |  POST   /org/{0}/workspace/{1}/note/{2}/tag/{3} |
  | untag_note                                   |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
  | untagNote                                    |  DELETE /org/{0}/workspace/{1}/note/{2}/tag/{3} |
+ | bw_account_update                            |  PUT /service-provider/{sp_code}/bw-account-update/{bw_userid} |
