@@ -213,6 +213,9 @@ API_METHODS = {
                                                                                                "startRTMS"              ,
                                                                   "start_rtm"                , "startRtm"               ,
                                                                                                "startRTM"                ] ]
+  # SERVICE PROVIDER & TAP
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss   , ccccccccccccccccccccccccc ] ]
+  "GET    /service-provider/{0}/bw-account-update/{1}"    : [ 2, [ "on_put_bw_account_update", "onPutBwAccountUpdate"     ] ]
 
 }
 
