@@ -213,7 +213,10 @@ API_METHODS = {
                                                                                                "startRTMS"              ,
                                                                   "start_rtm"                , "startRtm"               ,
                                                                                                "startRTM"                ] ]
-
+  # SERVICE PROVIDER
+  #mmmmmm pppppppppppppppppppppppppppppppppppppppppppppp : [ n, [ ssssssssssssssssssssssss        , ccccccccccccccccccccccccc ] ]
+  "PUT     /service-provider/{0}/bw-account-update/{1}"  : [ 2, [ "put_bw_account_update"         , "putBwAccountUpdate",
+                                                                  "put_broadworks_account_update" , "putBroadWorksAccountUpdate" ] ]
 }
 
 class Intellinote

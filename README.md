@@ -417,6 +417,7 @@ Here is the full list of REST methods explicitly defined in the client:
  | postWorkspaceChat                            |  POST   /org/{0}/workspace/{1}/message |
  | postWorkspaceMember                          |  POST   /org/{0}/workspace/{1}/member/{2} |
  | postWorkspaceMessage                         |  POST   /org/{0}/workspace/{1}/message |
+ | put_bw_account_update                        |  PUT    /service-provider/{sp_code}/bw-account-update/{bw_userid} |
  | put_contact                                  |  PUT    /contact/{0} |
  | put_contact_group                            |  PUT    /contact-group/{0} |
  | put_echo                                     |  PUT    /echo |

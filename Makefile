@@ -34,7 +34,7 @@ MOCHA_EXE ?= ./node_modules/.bin/mocha
 TEST ?= $(wildcard test/test-*.coffee)
 MOCHA_TESTS ?= $(TEST)
 MOCHA_TEST_PATTERN ?=
-MOCHA_TIMEOUT ?=-t 2000
+MOCHA_TIMEOUT ?=-t 3000
 MOCHA_TEST_ARGS  ?= -R list --compilers coffee:coffee-script/register $(MOCHA_TIMEOUT) $(MOCHA_TEST_PATTERN)
 MOCHA_EXTRA_ARGS ?=
 
@@ -169,7 +169,7 @@ module: js #test docs coverage
 	cp README.md $(MODULE_DIR)
 	mv module $(PACKAGE_DIR)
 	tar -czf $(PACKAGE_DIR).tgz $(PACKAGE_DIR)
-	
+
 test-module-install: clean-test-module-install module $(PACKAGE_DIR).tgz
 	mkdir -p $(TEST_MODULE_INSTALL_DIR); cd $(TEST_MODULE_INSTALL_DIR); npm install "$(CURDIR)/$(PACKAGE_DIR).tgz"; node -e "require('assert').ok(require('intellinote-client').Intellinote);" && cd $(CURDIR) && rm -rf $(TEST_MODULE_INSTALL_DIR) && echo "\n\nIT WORKED!\n\n"
 
